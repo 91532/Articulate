@@ -47,6 +47,21 @@ public class Card {
                 case "World":
                     ps = Main.db.prepareStatement("SELECT World FROM Cards WHERE CardID = ?");
                     break;
+                case "Object":
+                    ps = Main.db.prepareStatement("SELECT Object FROM Cards WHERE CardID = ?");
+                    break;
+                case "Action":
+                    ps = Main.db.prepareStatement("SELECT Action FROM Cards WHERE CardID = ?");
+                    break;
+                case "Nature":
+                    ps = Main.db.prepareStatement("SELECT Nature FROM Cards WHERE CardID = ?");
+                    break;
+                case "Random":
+                    ps = Main.db.prepareStatement("SELECT Random FROM Cards WHERE CardID = ?");
+                    break;
+                case "Spade":
+                    ps = Main.db.prepareStatement("SELECT Spade FROM Cards WHERE CardID = ?");
+                    break;
                }
 
             ps.setInt(1, randomID);

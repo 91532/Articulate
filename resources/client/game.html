@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="/client/js/game.js"></script>
+
+
+
+    <meta charset="UTF-8">
+    <title>Game Board</title>
+
+
+
+
+</head>
+<!-- onload function is evoke when page is load -->
+<!--countdown function is called when page is loaded -->
+<body onload="pageLoad();">
+
+
+
+
+Category: <input type="text" id="frm_Category">
+
+
+<button onclick="getWord()"> Next word </button>
+
+Here's your word:
+
+<div id="wordValue">  </div>
+
+
+
+<div>
+    Time Left :
+
+    <span id="minutes">1</span>:<span id="seconds">00</span>
+
+</div>
+</body>
+</html>
