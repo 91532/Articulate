@@ -8,11 +8,21 @@
 
     <meta charset="UTF-8">
     <title>Game Board</title>
-
-
-
-
+    <link rel = "stylesheet" href="css/style.css">
 </head>
+
+<body>
+
+<div class="topnav">
+    <a class="active" href="#home">Home</a>
+    <a href="#help">Help</a>
+</div>
+
+<div style="padding-left:16px">
+    <h2></h2>
+    <p></p>
+</div>
+</body>
 <!-- onload function is evoke when page is load -->
 <!--countdown function is called when page is loaded -->
 <body onload="pageLoad();">
@@ -20,16 +30,14 @@
 
 
 
-Category: <input type="text" id="frm_Category">
+<div>Category: <input type="text" id="frm_Category"></div>
 
+<div>
+    Here's your word:
 
+    <div id="wordValue">  </div>
+</div>
 <button onclick="getWord()"> Next word </button>
-
-Here's your word:
-
-<div id="wordValue">  </div>
-
-
 
 <div>
     Time Left :
@@ -37,5 +45,6 @@ Here's your word:
     <span id="minutes">1</span>:<span id="seconds">00</span>
 
 </div>
+
 </body>
 </html>
