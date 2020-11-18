@@ -30,6 +30,9 @@ body {
     box-sizing: border-box;
 }
 
+.topnav img {
+    height: 44px;
+}
 /* Create two equal columns that floats next to each other */
 .column {
     float: left;
