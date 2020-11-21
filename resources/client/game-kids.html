@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/client/js/game.js"></script>
+    <meta charset="UTF-8">
+    <title>Game Board - Kids</title>
+    <link rel = "stylesheet" href="/client/css/style.css">
+</head>
+
+<body onload="pageLoad();">
+<div id="topnav" class="topnav">
+    <script>getContent("/client/topnav.html", "topnav", "Game");</script>
+</div>
+
+<div class="row">
+    <div class="column mainColumn">
+        <div>Category: <input type="text" id="frm_Category"></div>
+        <div>
+            Here's your word:
+            <div id="wordValue">  </div>
+        </div>
+        <button onclick="getWord()"> Next word </button>
+        <div>
+            Time Left :
+            <span id="minutes">1</span>:<span id="seconds">00</span>
+        </div>
+    </div>
+    <div class="column sideColumn">
+
+    </div>
+</div>
+
+
+</body>
+
+</html>

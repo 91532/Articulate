@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <script src="/client/js/game.js"></script>
-
-
-
     <meta charset="UTF-8">
-    <title>Game Board</title>
-    <link rel = "stylesheet" href="css/style.css">
+    <title>Game Board - Original</title>
+    <link rel = "stylesheet" href="/client/css/style.css">
 </head>
 
-<body>
-
-<div class="topnav">
-    <a class="active" href="#home">Home</a>
-    <a href="#help">Help</a>
-</div>
-
-<div style="padding-left:16px">
-    <h2></h2>
-    <p></p>
-</div>
-</body>
-<!-- onload function is evoke when page is load -->
-<!--countdown function is called when page is loaded -->
 <body onload="pageLoad();">
-
-
-
-
-<div>Category: <input type="text" id="frm_Category"></div>
-
-<div>
-    Here's your word:
-
-    <div id="wordValue">  </div>
-</div>
-<button onclick="getWord()"> Next word </button>
-
-<div>
-    Time Left :
-
-    <span id="minutes">1</span>:<span id="seconds">00</span>
-
+<div id="topnav" class="topnav">
+    <script>getContent("/client/topnav.html", "topnav", "Game");</script>
 </div>
 
+<div class="row">
+    <div class="column mainColumn">
+
+    </div>
+    <div class="column sideColumn">
+        <div id="catSelector">
+            <h2>Select Category</h2>
+            <a class="sideCat" href="/client/game-original.html?category=Nature">Nature</a>
+            <a class="sideCat" href="/client/game-original.html?category=Object">Object</a>
+            <a class="sideCat" href="/client/game-original.html?category=Person">Person</a>
+            <a class="sideCat" href="/client/game-original.html?category=Random">Random</a>
+            <a class="sideCat" href="/client/game-original.html?category=Space">Spade</a>
+            <a class="sideCat" href="/client/game-original.html?category=World">World</a>
+            <a class="sideCat" href="/client/game-original.html?category=Action">Action</a>
+        </div>
+        <div id="catWord">
+            <h2>Express this Word!</h2>
+            <div>
+                <span class="title">Category</span>
+                <input type="text" id="frm_Category" readonly>
+            </div>
+            <div>
+                <span class="title">Your Word</span>
+                <input type="text" id="wordValue" readonly>
+                <button id="nextWord" onclick="getWord()">Next Word</button>
+            </div>
+            <div>
+                <span class="title">Time Left:</span>
+                <span id="seconds">60</span>
+                <div class="toolbar">
+                    <button onclick="countdown()" id="timePlay" disabled></button>
+                    <button onclick="stopcountdown()" id="timePause"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+
 </html>

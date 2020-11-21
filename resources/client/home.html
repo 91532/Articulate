@@ -1,46 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="/client/js/game.js"></script>
     <meta charset="UTF-8">
     <title>Home Page</title>
-    <link rel = "stylesheet" href="css/style.css">
+    <link rel = "stylesheet" href="/client/css/style.css">
 </head>
 
 
 <body>
-<div class="topnav">
-        <img src="/client/img/expressLogo.jpg" alt="Express Logo">
-    <a class="active" href="#home">Home</a>
-    <a href="#help">Help</a>
-    <input type="text" placeholder="Search..">
+<div id="topnav" class="topnav">
+    <script>getContent("/client/topnav.html", "topnav", "Home");</script>
 </div>
-
 
 <div class="row">
-    <div class="column">
+    <div class="column mainColumn" >
         <h1>Game Options</h1>
-
         <section>
-            <h2><a href = "/client/game.html">Original</a></h2>
-            <p>Clicking on the link above will allow you to play the original version of the game</p>
+            <a class="primaryOption" href="/client/game-original.html">
+                <h2>Original</h2>
+                <p>Clicking on the link above will allow you to play the original version of the game</p>
+            </a>
         </section>
-
         <section>
-            <h2><a href = "/client/game.html">Kids</a></h2>
-            <p>Clicking on the link above will allow you to play the kids version of the game.</p>
+            <a class="primaryOption" href="/client/game-kids.html">
+                <h2>Kids</h2>
+                <p>Clicking on the link above will allow you to play the Chldrens version of the game</p>
+            </a>
         </section>
     </div>
-    <div class="column">
+    <div class="column sideColumn">
         <h1>Help</h1>
-
-        <section>
-            <button> Original Version Rules </button>
+        <section class="sideSection">
+            <a href="">Rules for Original Version</a>
         </section>
-
-        <section>
-            <button> Kids Version Rules </button>
+        <section class="sideSection">
+            <a href="">Rules for Kids Version</a>
         </section>
     </div>
 </div>
+
 </body>
 </html>

@@ -17,7 +17,6 @@ import java.io.IOException;
  ------------------------------------------------------------------------------ */
 @Path("client/")
 public class Client {
-
     @GET
     @Path("img/{path}")
     @Produces({"image/jpeg,image/png"})
@@ -44,6 +43,13 @@ public class Client {
     @Produces({"text/css"})
     public byte[] getCSSFile(@PathParam("path") String path) {
         return getFile("client/css/" + path);
+    }
+
+    @GET
+    @Path("/")
+    @Produces({"text/html"})
+    public byte[] getIndexPage() {
+        return getFile("client/home.html");
     }
 
     @GET

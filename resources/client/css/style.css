@@ -1,8 +1,20 @@
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    minwidth: 1080px;
+    maxwidth: 1080px;
+    width: 1080px;
+    minheight: 834px;
+    maxheight: 834px;
+    height: 834px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: Arial;
+    color: #2f2f2f;
 }
 
+* {
+    box-sizing:border-box;
+}
 .topnav {
     overflow: hidden;
     background-color: #333;
@@ -19,35 +31,13 @@ body {
 
 .topnav a:hover {
     background-color: #ddd;
-    color: black;
+    color: #2f2f2f;
 }
 
 .topnav a.active {
     background-color: #4CAF50;
     color: white;
 }
-* {
-    box-sizing: border-box;
-}
-
-.topnav img {
-    height: 44px;
-}
-/* Create two equal columns that floats next to each other */
-.column {
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: 300px; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 .topnav input[type=text] {
     float: right;
     padding: 6px;
@@ -56,19 +46,165 @@ body {
     margin-right: 16px;
     font-size: 17px;
 }
+
+.column {
+    height: 776px;
+    padding-top: 10px;
+    padding-bottom: -10px;
+}
+.mainColumn {
+    width: 844px;
+    float: left;
+    border: 10px solid;
+    border-image-source: linear-gradient(45deg, rgb(0,143,104), rgb(250,224,66));
+    border-image-slice: 1;
+    padding: 10px;
+}
+.sideColumn {
+    width: 236px;
+    float: right;
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    border-right: 10px solid;
+    border-image-source: linear-gradient(90deg, rgb(250,224,66), rgb(0,143,104));
+    border-image-slice: 1;
+    padding: 10px;
+}
+
+
 .logo{
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
+    float: left;
 }
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+.logo img {
+    height: 44px;
 }
-th, td {
+
+section > a.primaryOption {
     padding: 5px;
+    padding-left: 25px;
+    margin-bottom: 20px;
 }
-th {
-    text-align: left;
+
+a.primaryOption {
+    display: block;
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgb(250,224,66), rgb(0,143,104));
+}
+
+.sideSection {
+    margin-bottom: 10px;
+}
+
+.sideSection > a {
+    display: block;
+    background: rgb(250,224,66);
+    padding: 5px;
+    border-radius: 5px;
+    color: #2f2f2f;
+    text-decoration: none;
+}
+
+a.sideCat {
+    display: block;
+    text-decoration: none;
+    color: #f2f2f2;
+    background: rgb(0,143,104);
+    padding: 4px;
+    margin-bottom: 4px;
+    border-radius: 2px;
+    padding-left: 8px;
+}
+
+a:hover.sideCat {
+    color: #2f2f2f;
+    background: rgb(250,224,66);
+}
+
+#catWord > div > span.title {
+    font-size: 11px;
+    display: block;
+}
+
+#catWord > div {
+    margin-bottom: 20px;
+    background: aqua;
+    padding: 4px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#catWord > div > input {
+    font-size: 20px;
+    border: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: transparent;
+}
+
+.toolbar {
+    margin:auto;
+    text-align: center;
+}
+
+.toolbar > button {
+    background: white;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 10px;
+    height: 30px;
+    width: 30px;
+}
+.toolbar > button:active {
+    transform: translateY(2px);
+}
+#timePlay {
+    background-image: url("/client/img/play.png");
+}
+#timePause {
+    background-image: url("/client/img/pause.png");
+}
+#timePlay:disabled {
+    background-image: url("/client/img/play-disabled.png");
+    transform: none;
+}
+#timePause:disabled {
+    background-image: url("/client/img/pause-disabled.png");
+    transform: none;
+}
+
+#seconds {
+    font-size: 90px;
+    padding: 15px;
+    padding-top:20px;
+    padding-left:20px;
+    background: linear-gradient(180deg, rgb(250,224,66), rgb(0,143,104));
+    color: Yellow;
+    width: 140px;
+    height: 140px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    margin:auto;
+    margin-top: 20px;
+    display: block;
+}
+
+form div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+form > div > label {
+    font-size: 10px;
+}
+form > div > input {
+    display: block;
+    font-size: 16px;
+    width: 200px;
 }
