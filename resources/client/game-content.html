@@ -1,0 +1,30 @@
+<div id="catSelector">
+    <h2>Select Category</h2>
+    <a class="sideCat" href="/client/game.html?category=Nature">Nature</a>
+    <a class="sideCat" href="/client/game.html?category=Object">Object</a>
+    <a class="sideCat" href="/client/game.html?category=Person">Person</a>
+    <a class="sideCat" href="/client/game.html?category=Random">Random</a>
+    <a class="sideCat" href="/client/game.html?category=Space">Spade</a>
+    <a class="sideCat" href="/client/game.html?category=World">World</a>
+    <a class="sideCat" href="/client/game.html?category=Action">Action</a>
+</div>
+<div id="catWord">
+    <h2>Express this Word!</h2>
+    <div>
+        <span class="title">Category</span>
+        <input type="text" id="frm_Category" readonly>
+    </div>
+    <div>
+        <span class="title">Your Word</span>
+        <input type="text" id="wordValue" readonly>
+        <button id="nextWord" onclick="getWord()">Next Word</button>
+    </div>
+    <div>
+        <span class="title">Time Left:</span>
+        <span id="seconds">60</span>
+        <div class="toolbar">
+            <button onclick="countdown()" id="timePlay" disabled></button>
+            <button onclick="stopcountdown()" id="timePause"></button>
+        </div>
+    </div>
+</div>

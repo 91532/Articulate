@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/client/js/game.js"></script>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <link rel = "stylesheet" href="/client/css/style.css">
+</head>
+
+
+<body>
+<div id="topnav" class="topnav">
+    <script>getContent("/client/topnav.html", "topnav", "Admin");</script>
+</div>
+<div class="row">
+    <div class="column mainColumn" >
+        <section>
+            <h3>Add Cards</h3>
+            <form id="addForm" action="/card/put/Card" onsubmit="return frmSubmit(event)">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><label for="Person">Person</label><input id="Person" name="Person" type="text"></td>
+                        <td><label for="Object">Object</label><input id="Object" name="Object" type="text"></td>
+                        <td><label for="Random">Random</label><input id="Random" name="Random" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="Nature">Nature</label><input id="Nature" name="Nature" type="text"></td>
+                        <td><label for="World">World</label><input id="World" name="World" type="text"></td>
+                        <td><label for="Action">Action</label><input id="Action" name="Action" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="Spade">Spade</label><input id="Spade" name="Spade" type="text"></td>
+                        <td></td>
+                        <td><label>&nbsp;</label><button>Add Record</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </section>
+        <section>
+            <h3>See Cards</h3>
+            <table id="WordList" class="WordList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Person</th>
+                    <th>Object</th>
+                    <th>Random</th>
+                    <th>Nature</th>
+                    <th>World</th>
+                    <th>Action</th>
+                    <th>Spade</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <script>populateAdminTable("WordList")</script>
+        </section>
+        <section>
+            <h3>Edit Cards</h3>
+            <form id="editForm" action="/card/update/Card" onsubmit="return frmSubmit(event)">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><label for="ePerson">Person</label><input id="ePerson" name="ePerson" type="text"></td>
+                        <td><label for="eObject">Object</label><input id="eObject" name="eObject" type="text"></td>
+                        <td><label for="eRandom">Random</label><input id="eRandom" name="eRandom" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="eNature">Nature</label><input id="eNature" name="eNature" type="text"></td>
+                        <td><label for="eWorld">World</label><input id="eWorld" name="eWorld" type="text"></td>
+                        <td><label for="eAction">Action</label><input id="eAction" name="eAction" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="eSpade">Spade</label><input id="eSpade" name="eSpade" type="text"></td>
+                        <td><label for="eCardId">Card ID</label><input id="eCardId" name="eCardId" type="text" readonly value=0></td>
+                        <td><label>&nbsp;</label><button>Change!</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </section>
+    </div>
+    <div class="column sideColumn">
+        <h1>Help</h1>
+        <section class="sideSection">
+            <a href="">Rules for Original Version</a>
+        </section>
+        <section class="sideSection">
+            <a href="">Rules for Kids Version</a>
+        </section>
+    </div>
+</div>
+</body>
+</html>

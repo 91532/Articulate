@@ -46,17 +46,26 @@ function getContent(url, dstElement, active="Home") {
     });
 }
 
+function getXContent(url, dstElement) {
+    console.log("Getting file: " + url);
+    fetch(url, {method: "GET"}).then( response => {
+        return response.text();
+    }).then (response => {
+        document.getElementById(dstElement).innerHTML = response;
+    });
+}
+
 function getWord() {
     console.log("Invoked getWord()");
-    const category = document.getElementById("frm_Category").value;
-    const url = "/card/get/";
-    fetch(url + category, {
+    const category = document.getElementById("frm_Category").value;   //get value from date picker
+    const url = "/card/get/Category/";		        // API method on webserver will be in Eaten class with @Path of list
+    fetch(url + category, {        			// Category as path param
         method: "GET",
     }).then(response => {
-        return response.json();
+        return response.json();             //return response to JSON
     }).then(response => {
-        if (response.hasOwnProperty("Error")) {
-            alert(JSON.stringify(response));
+        if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+            alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
         } else {
             document.getElementById("wordValue").value = response.Word;
         }
@@ -92,4 +101,73 @@ function stopcountdown() {
     clearInterval(theTimer);
     document.getElementById("timePlay").disabled = false;
     document.getElementById("timePause").disabled = true;
+}
+
+function populateAdminTable(tableName){
+    var url = "/card/get/All";
+    console.log("Getting file: " + url);
+    fetch(url, {method: "GET"}).then( response => {
+        return response.json();
+    }).then (response => {
+        if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+            alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+        } else {
+            refreshTable(tableName, response);
+        };
+    });
+}
+
+function refreshTable(tableName, response){
+    removeAllRows(tableName);
+    for ( let id in response){
+        addTableRow(tableName, id, response[id])
+    }
+}
+function removeAllRows(tableName) {
+    var tblObject = document.getElementById(tableName);
+    // Remove any existing rows except for the title row
+    tblObject.removeChild(tblObject.getElementsByTagName("tbody")[0]);
+    var tblBody = document.createElement("tbody");
+    tblObject.appendChild(tblBody);
+}
+function addTableRow(tableName, id, jsonElements){
+    var tblObject = document.getElementById(tableName);
+    var tblBody = tblObject.getElementsByTagName("tbody")[0];
+    var tblRow = tblBody.insertRow();
+    tblRow.insertCell(0).innerHTML = id;
+    tblRow.insertCell(1).innerHTML = jsonElements["Person"];
+    tblRow.insertCell(2).innerHTML = jsonElements["Object"];
+    tblRow.insertCell(3).innerHTML = jsonElements["Random"];
+    tblRow.insertCell(4).innerHTML = jsonElements["Nature"];
+    tblRow.insertCell(5).innerHTML = jsonElements["World"];
+    tblRow.insertCell(6).innerHTML = jsonElements["Action"];
+    tblRow.insertCell(7).innerHTML = jsonElements["Spade"];
+    tblRow.insertCell(8).innerHTML = '<button onClick="setEdit(event)">Edit</button>';
+}
+
+function setEdit(event){
+    var xButton = event.target;
+    var xRow = xButton.parentElement.parentElement;
+    document.getElementById("ePerson").value = xRow.getElementsByTagName('td')[1].innerHTML;
+    document.getElementById("eObject").value = xRow.getElementsByTagName('td')[2].innerHTML;
+    document.getElementById("eRandom").value = xRow.getElementsByTagName('td')[3].innerHTML;
+    document.getElementById("eNature").value = xRow.getElementsByTagName('td')[4].innerHTML;
+    document.getElementById("eWorld").value = xRow.getElementsByTagName('td')[5].innerHTML;
+    document.getElementById("eAction").value = xRow.getElementsByTagName('td')[6].innerHTML;
+    document.getElementById("eSpade").value = xRow.getElementsByTagName('td')[7].innerHTML;
+    document.getElementById("eCardId").value = xRow.getElementsByTagName('td')[0].innerHTML;
+}
+
+function frmSubmit(event) {
+    event.preventDefault();
+    var frmObject = event.target;
+    var frmData = new FormData(frmObject);
+    var frmTarget = frmObject.getAttribute("action");
+    const result = fetch(frmTarget, {method: "POST", body:frmData}).then(response =>{
+        return response.json();
+    }).then( response => {
+        populateAdminTable("WordList");
+        alert(JSON.stringify(response));
+    });
+    return false;
 }
