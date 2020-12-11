@@ -73,7 +73,7 @@ function getWord() {
 }
 
 //set seconds
-let timeLeft = 5;
+let timeLeft = 60;
 let theTimer = null;
 
 function refreshTimer(){
