@@ -2,10 +2,17 @@
 
 function pageLoad() {
     console.log("Page is loading...");
-    var wrdSection = 'catWord';
-    var optSection = 'catSelector';
-    var strCategory = getUrlParameter('category');
-    var strGameVersion = getUrlParameter('gameVersion');
+    let wrdSection = 'catWord';
+    let optSection = 'catSelector';
+    let strCategory = getUrlParameter('category');
+    let strGameVersion = getUrlParameter('gameVersion');
+    let urls = document.getElementsByClassName("sideCat");
+    for (var el of urls){
+        let xAttr = el.getAttribute("aria-details");
+        xAttr = xAttr + "&gameVersion="+ strGameVersion;
+        el.setAttribute("href",xAttr);
+    }
+
     if (strCategory == "") {
         showElement(optSection);
         hideElement(wrdSection);
@@ -14,32 +21,27 @@ function pageLoad() {
         showElement(wrdSection);
         document.getElementById('frm_Category').value = strCategory;
         countdown();
-        if(strGameVersion == 'kids'){
-            getWordKids();
-        }else{
-            getWord();
-        }
-
+        getWordWrapper();
     }
 
 }
 
 function showElement(name) {
-    var el = document.getElementById(name);
+    let el = document.getElementById(name);
     el.style.visibility = "visible";
     el.style.display = "block";
 }
 
 function hideElement(name) {
-    var el = document.getElementById(name);
+    let el = document.getElementById(name);
     el.style.visibility = "hidden";
     el.style.display = "none";
 }
 
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
+    let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    let results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
