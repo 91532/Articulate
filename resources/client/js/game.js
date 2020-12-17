@@ -5,6 +5,7 @@ function pageLoad() {
     var wrdSection = 'catWord';
     var optSection = 'catSelector';
     var strCategory = getUrlParameter('category');
+    var strGameVersion = getUrlParameter('gameVersion');
     if (strCategory == "") {
         showElement(optSection);
         hideElement(wrdSection);
@@ -13,8 +14,14 @@ function pageLoad() {
         showElement(wrdSection);
         document.getElementById('frm_Category').value = strCategory;
         countdown();
-        getWord();
+        if(strGameVersion == 'kids'){
+            getWordKids();
+        }else{
+            getWord();
+        }
+
     }
+
 }
 
 function showElement(name) {
@@ -59,7 +66,7 @@ function getWord() {
     console.log("Invoked getWord()");
     const category = document.getElementById("frm_Category").value;   //get value from date picker
     const url = "/card/get/Category/";		        // API method on webserver will be in Eaten class with @Path of list
-    fetch(url + category, {        			// Category as path param
+    fetch(url + category + "/original", {        			// Category as path param
         method: "GET",
     }).then(response => {
         return response.json();             //return response to JSON
@@ -70,6 +77,31 @@ function getWord() {
             document.getElementById("wordValue").value = response.Word;
         }
     });
+}
+function getWordKids() {
+    console.log("Invoked getWordKids()");
+    const category = document.getElementById("frm_Category").value;   //get value from date picker
+    const url = "/card/get/Category/";		        // API method on webserver will be in Eaten class with @Path of list
+    fetch(url + category + "/kids", {        			// Category as path param
+        method: "GET",
+    }).then(response => {
+        return response.json();             //return response to JSON
+    }).then(response => {
+        if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+            alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+        } else {
+            document.getElementById("wordValue").value = response.Word;
+        }
+    });
+}
+function getWordWrapper(){
+    console.log("Invoked Wrapper");
+    let strGameVersion = getUrlParameter('gameVersion');
+    if(strGameVersion == 'kids'){
+        getWordKids();
+    }else{
+        getWord();
+    }
 }
 
 //set seconds
@@ -104,7 +136,7 @@ function stopcountdown() {
 }
 
 function populateAdminTable(tableName){
-    var url = "/card/get/All";
+    let url = "/card/get/All";
     console.log("Getting file: " + url);
     fetch(url, {method: "GET"}).then( response => {
         return response.json();
@@ -124,16 +156,16 @@ function refreshTable(tableName, response){
     }
 }
 function removeAllRows(tableName) {
-    var tblObject = document.getElementById(tableName);
+    let tblObject = document.getElementById(tableName);
     // Remove any existing rows except for the title row
     tblObject.removeChild(tblObject.getElementsByTagName("tbody")[0]);
-    var tblBody = document.createElement("tbody");
+    let tblBody = document.createElement("tbody");
     tblObject.appendChild(tblBody);
 }
 function addTableRow(tableName, id, jsonElements){
-    var tblObject = document.getElementById(tableName);
-    var tblBody = tblObject.getElementsByTagName("tbody")[0];
-    var tblRow = tblBody.insertRow();
+    let tblObject = document.getElementById(tableName);
+    let tblBody = tblObject.getElementsByTagName("tbody")[0];
+    let tblRow = tblBody.insertRow();
     tblRow.insertCell(0).innerHTML = id;
     tblRow.insertCell(1).innerHTML = jsonElements["Person"];
     tblRow.insertCell(2).innerHTML = jsonElements["Object"];
@@ -146,8 +178,8 @@ function addTableRow(tableName, id, jsonElements){
 }
 
 function setEdit(event){
-    var xButton = event.target;
-    var xRow = xButton.parentElement.parentElement;
+    let xButton = event.target;
+    let xRow = xButton.parentElement.parentElement;
     document.getElementById("ePerson").value = xRow.getElementsByTagName('td')[1].innerHTML;
     document.getElementById("eObject").value = xRow.getElementsByTagName('td')[2].innerHTML;
     document.getElementById("eRandom").value = xRow.getElementsByTagName('td')[3].innerHTML;
@@ -160,9 +192,9 @@ function setEdit(event){
 
 function frmSubmit(event) {
     event.preventDefault();
-    var frmObject = event.target;
-    var frmData = new FormData(frmObject);
-    var frmTarget = frmObject.getAttribute("action");
+    let frmObject = event.target;
+    let frmData = new FormData(frmObject);
+    let frmTarget = frmObject.getAttribute("action");
     const result = fetch(frmTarget, {method: "POST", body:frmData}).then(response =>{
         return response.json();
     }).then( response => {
