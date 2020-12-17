@@ -53,12 +53,11 @@ body {
     padding-bottom: -10px;
 }
 .mainColumn {
-    width: 844px;
+    width: 838px;
     float: left;
     border: 10px solid;
     border-image-source: linear-gradient(45deg, rgb(0,143,104), rgb(250,224,66));
     border-image-slice: 1;
-    padding: 10px;
 }
 .sideColumn {
     width: 236px;
@@ -265,4 +264,84 @@ button {
 
 .sideColumn .UnderConstruction {
     font-size: 24px;
+}
+.row{
+    display: block;
+    padding: 0;
+    margin-top: -10px;
+}
+.col{
+    display: table-cell;
+    height: 103px;
+    width: 107px;
+    margin-left: -10px;
+    border: 5px solid;
+    border-image: radial-gradient(rgb(0,143,104), rgb(250,224,66)) 1;
+    padding: 5px;
+    font-size: 22px;
+    color: white;
+    text-align: center;
+}
+.fCol{
+   margin-left: 0.5px;
+}
+.colNature{
+    background: #4CAF50;
+}
+.colNature:before{
+    content: "Nature";
+}
+.colPerson{
+    background: coral;
+}
+.colPerson:before{
+    content: "Person";
+}
+.colAction{
+    background: goldenrod;
+}
+.colAction:before{
+    content: "Action";
+}
+.colSpade{
+    background: darkorange;
+}
+.colSpade:before{
+    content: "Spade";
+}
+.colRandom{
+    background: darkred;
+}
+.colRandom:before{
+    content: "Random";
+}
+.colWorld{
+    background: lightpink;
+}
+.colWorld:before{
+    content: "World";
+}
+.colObject{
+    background: mediumvioletred;
+}
+.colObject:before{
+    content: "Object";
+}
+.sqrStart{
+    background: bisque;
+}
+.sqrStart:before{
+    content: "Start";
+}
+.sqrFinish{
+    background: bisque;
+}
+.sqrFinish:before{
+    content: "Finish";
+}
+.sqrArrow{
+    background: black;
+}
+.sqrArrow:before{
+    content: "Turn";
 }
