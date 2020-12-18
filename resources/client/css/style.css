@@ -278,7 +278,7 @@ button {
     border: 5px solid;
     border-image: radial-gradient(rgb(0,143,104), rgb(250,224,66)) 1;
     padding: 5px;
-    font-size: 22px;
+    font-size: 16px;
     color: white;
     text-align: center;
 }
@@ -329,19 +329,32 @@ button {
 }
 .sqrStart{
     background: bisque;
+    color: black;
 }
 .sqrStart:before{
     content: "Start";
 }
 .sqrFinish{
     background: bisque;
+    color: black;
 }
 .sqrFinish:before{
     content: "Finish";
 }
 .sqrArrow{
-    background: black;
+    background: white;
+    color: black;
 }
 .sqrArrow:before{
     content: "Turn";
+}
+#t1Score,#t2Score{
+    font-size: 25px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 5px;
+}
+.sqrBig{
+    font-size: 32px;
+    clear: left;
 }

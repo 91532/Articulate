@@ -1,10 +1,15 @@
 "use strict";
+let team1Marker="<span>&#9822</span>";
+let team2Marker="<span>&#9820</span>";
+let team1Score=0;
+let team2Score=0;
+let teamplaying=1;
 
 function pageLoad() {
     console.log("Page is loading...");
     let wrdSection = 'catWord';
     let optSection = 'catSelector';
-    let strCategory = getUrlParameter('category');
+
     let strGameVersion = getUrlParameter('gameVersion');
     let urls = document.getElementsByClassName("sideCat");
     for (var el of urls){
@@ -13,16 +18,13 @@ function pageLoad() {
         el.setAttribute("href",xAttr);
     }
 
-    if (strCategory == "") {
-        showElement(optSection);
-        hideElement(wrdSection);
-    } else {
-        hideElement(optSection);
-        showElement(wrdSection);
-        document.getElementById('frm_Category').value = strCategory;
-        countdown();
-        getWordWrapper();
-    }
+
+    hideElement(optSection);
+    showElement(wrdSection);
+    document.getElementById('frm_Category').value = strCategory;
+    countdown();
+    getWordWrapper();
+
 
 }
 
