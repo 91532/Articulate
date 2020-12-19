@@ -1,15 +1,32 @@
+:root {
+    --sqrWidth: 90px;
+    --bigSpace: 10px;
+    --smlSpace: calc(var(--bigSpace)/2);
+    --mainColWidth: calc(var(--sqrWidth)*8 + var(--bigSpace)*4);
+    --sideColWidth: calc(var(--sqrWidth)*3 + var(--bigSpace));
+    --bodyHeight: calc(var(--sqrWidth)*8 + var(--bigSpace)*4);
+    --bodyWidth: calc(var(--mainColWidth) + var(--sideColWidth));
+    --fntSml: 0.7em;
+    --fntReg: calc(var(--fntSml)*1.5);
+    --fntBig: calc(var(--fntReg)*1.5);
+    --fntBgr: calc(var(--fntBig)*1.5);
+}
+
 body {
-    minwidth: 1080px;
-    maxwidth: 1080px;
-    width: 1080px;
-    minheight: 834px;
-    maxheight: 834px;
-    height: 834px;
+
+    min-width: var(--bodyWidth);
+    max-width: var(--bodyWidth);
+    width: var(--bodyWidth);
+
+    min-height: var(--bodyHeight);
+    max-height: var(--bodyHeight);
+    height: var(--bodyHeight);
+
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-family: Arial;
+    margin-top: var(--bigSpace);
+    font-family: arial;
     color: #2f2f2f;
+    overflow: hide;
 }
 
 * {
@@ -26,7 +43,7 @@ body {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: var(--fntReg);
 }
 
 .topnav a:hover {
@@ -40,34 +57,45 @@ body {
 }
 .topnav input[type=text] {
     float: right;
-    padding: 6px;
+    padding: var(--smlSpace);
     border: none;
-    margin-top: 8px;
+    margin-top: var(--bigSpace);
     margin-right: 16px;
-    font-size: 17px;
+    font-size: var(--fntReg);
 }
 
-.column {
-    height: 776px;
-    padding-top: 10px;
-    padding-bottom: -10px;
-}
 .mainColumn {
-    width: 838px;
+    width: var(--mainColWidth);
+    min-width: var(--mainColWidth);
+    max-width: var(--mainColWidth);
+    height: var(--bodyHeight);
+    min-height: var(--bodyHeight);
+    max-height: var(--bodyHeight);
+    overflow: none;
+
     float: left;
-    border: 10px solid;
+    border: var(--bigSpace) solid;
     border-image-source: linear-gradient(45deg, rgb(0,143,104), rgb(250,224,66));
     border-image-slice: 1;
+    margin: 0;
+    padding: var(--bigSpace);
 }
 .sideColumn {
-    width: 236px;
-    float: right;
-    border-top: 10px solid;
-    border-bottom: 10px solid;
-    border-right: 10px solid;
+    width: var(--sideColWidth);
+    min-width: var(--sideColWidth);
+    max-width: var(--sideColWidth);
+    height: var(--bodyHeight);
+    min-height: var(--bodyHeight);
+    max-height: var(--bodyHeight);
+    overflow: none;
+
+    float: left;
+    border-top: var(--bigSpace) solid;
+    border-bottom: var(--bigSpace) solid;
+    border-right: var(--bigSpace) solid;
     border-image-source: linear-gradient(90deg, rgb(250,224,66), rgb(0,143,104));
     border-image-slice: 1;
-    padding: 10px;
+    padding: var(--bigSpace);
 }
 
 
@@ -80,7 +108,7 @@ body {
 }
 
 section > a.primaryOption {
-    padding: 5px;
+    padding: var(--smlSpace);
     padding-left: 25px;
     margin-bottom: 20px;
 }
@@ -89,19 +117,19 @@ a.primaryOption {
     display: block;
     text-decoration: none;
     color: white;
-    border-radius: 10px;
+    border-radius: var(--bigSpace);
     background: linear-gradient(180deg, rgb(250,224,66), rgb(0,143,104));
 }
 
 .sideSection {
-    margin-bottom: 10px;
+    margin-bottom: var(--bigSpace);
 }
 
 .sideSection > a {
     display: block;
     background: rgb(250,224,66);
-    padding: 5px;
-    border-radius: 5px;
+    padding: var(--smlSpace);
+    border-radius: var(--smlSpace);
     color: #2f2f2f;
     text-decoration: none;
 }
@@ -114,7 +142,7 @@ a.sideCat {
     padding: 4px;
     margin-bottom: 4px;
     border-radius: 2px;
-    padding-left: 8px;
+    padding-left: var(--bigSpace);
 }
 
 a:hover.sideCat {
@@ -123,25 +151,23 @@ a:hover.sideCat {
 }
 
 #catWord > div > span.title {
-    font-size: 11px;
+    font-size: var(--fntSml);
     display: block;
 }
 
 #catWord > div {
-    margin-bottom: 20px;
-    background: aqua;
-    padding: 4px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    margin-bottom: var(--bigSpace);
+    background: green;
+    color: white;
+    padding: var(--bigSpace);
 }
 
 #catWord > div > input {
-    font-size: 20px;
+    font-size: var(--fntBig);
     border: 0;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    color: white;
+    margin: var(--smlSpace);
+    padding: var(--smlSpace);
     background: transparent;
 }
 
@@ -155,7 +181,7 @@ a:hover.sideCat {
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: center;
-    margin-top: 10px;
+    margin-top: var(--bigSpace);
     height: 30px;
     width: 30px;
 }
@@ -196,15 +222,15 @@ a:hover.sideCat {
 }
 
 form div {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: var(--bigSpace);
+    margin-bottom: var(--bigSpace);
 }
 form > div > label {
-    font-size: 10px;
+    font-size: var(--bigSpace);
 }
 form > div > input {
     display: block;
-    font-size: 16px;
+    font-size: var(--fntReg);
     width: 200px;
 }
 
@@ -225,26 +251,27 @@ form > table {
 
 form label {
     display: block;
-    font-size: 10px;
+    font-size: var(--bigSpace);
 }
 
 button {
-    font-size: 9px;
+    font-size: var(--fntReg);
+    border: 2px solid aqua;
 }
 
 .WordList tbody td, .WordList thead th {
     width: 6%;
     border: 1px solid orange;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: var(--smlSpace);
+    padding-right: var(--smlSpace);
     padding-top: 2px;
     padding-bottom: 2px;
     text-align: left;
-    font-size: 10px;
+    font-size: var(--bigSpace);
     word-break: break-all;
 }
 .WordList button {
-    font-size: 8px;
+    font-size: var(--fntReg);
 }
 .WordList tbody {
     height: 250px;
@@ -266,25 +293,30 @@ button {
     font-size: 24px;
 }
 .row{
-    display: block;
+    display: table-row;
     padding: 0;
-    margin-top: -10px;
 }
 .col{
     display: table-cell;
-    height: 103px;
-    width: 107px;
-    margin-left: -10px;
-    border: 5px solid;
+    height: var(--sqrWidth);
+    min-height: var(--sqrWidth);
+    max-height: var(--sqrWidth);
+    width: var(--sqrWidth);
+    min-width: var(--sqrWidth);
+    max-width: var(--sqrWidth);
+    overflow: none;
+    border: var(--smlSpace) solid green;
     border-image: radial-gradient(rgb(0,143,104), rgb(250,224,66)) 1;
-    padding: 5px;
-    font-size: 16px;
-    color: white;
+    padding: var(--smlSpace);
+    font-size: var(--fntReg);
+
     text-align: center;
 }
-.fCol{
-   margin-left: 0.5px;
+
+.fCol {
+    margin-left: 1px;
 }
+
 .colNature{
     background: #4CAF50;
 }
@@ -311,6 +343,7 @@ button {
 }
 .colRandom{
     background: darkred;
+    color: white;
 }
 .colRandom:before{
     content: "Random";
@@ -323,6 +356,7 @@ button {
 }
 .colObject{
     background: mediumvioletred;
+    color: white;
 }
 .colObject:before{
     content: "Object";
@@ -341,20 +375,26 @@ button {
 .sqrFinish:before{
     content: "Finish";
 }
-.sqrArrow{
+.sqrArrowLeft, .sqrArrowRight{
     background: white;
     color: black;
 }
-.sqrArrow:before{
-    content: "Turn";
+.sqrArrowLeft, .sqrArrowRight{
+    font-size: var(--fntReg);
 }
+
+
 #t1Score,#t2Score{
-    font-size: 25px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-left: 5px;
+    font-size: var(--fntBgr);
+    margin-top: var(--smlSpace);
+    margin-bottom: var(--smlSpace);
+    margin-left: var(--smlSpace);
 }
 .sqrBig{
     font-size: 32px;
     clear: left;
+}
+
+.btnLarge {
+    width: 100%;
 }

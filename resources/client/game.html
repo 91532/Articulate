@@ -12,7 +12,7 @@
     <script>getContent("/client/topnav.html", "topnav", "Game");</script>
 </div>
 
-<div class="row">
+<div class="xRow">
     <div class="column mainColumn">
         <div class="row">
             <div class="col fCol sqrFinish" id="sqr56">
@@ -36,13 +36,13 @@
             <div class="col colObject" id="sqr50">
 
             </div>
-            <div class="col sqrArrow" >
-
+            <div class="col sqrArrowLeft" >
+                &#8624;
             </div>
         </div>
         <div class="row">
-            <div class="col fCol sqrArrow" >
-
+            <div class="col fCol sqrArrowRight" >
+                &#8625;
             </div>
             <div class="col colObject" id="sqr43">
 
@@ -88,13 +88,13 @@
             <div class="col colObject" id="sqr36">
 
             </div>
-            <div class="col sqrArrow">
-
+            <div class="col sqrArrowLeft">
+                &#8624;
             </div>
         </div>
         <div class="row">
-            <div class="col fCol sqrArrow">
-
+            <div class="col fCol sqrArrowRight">
+                &#8625;
             </div>
             <div class="col colObject" id="sqr29">
 
@@ -140,13 +140,13 @@
             <div class="col colObject" id="sqr22">
 
             </div>
-            <div class="col sqrArrow">
-
+            <div class="col sqrArrowLeft">
+                &#8624;
             </div>
         </div>
         <div class="row">
-            <div class="col fCol sqrArrow">
-
+            <div class="col fCol sqrArrowRight">
+                &#8625;
             </div>
             <div class="col colObject" id="sqr15">
 
@@ -183,7 +183,7 @@
             <div class="col colAction" id="sqr11">
 
             </div>
-            <div class="col colPerson" id="Person">
+            <div class="col colPerson" id="sqr10">
 
             </div>
             <div class="col colNature" id="sqr9">
@@ -192,12 +192,12 @@
             <div class="col colObject" id="sqr8">
 
             </div>
-            <div class="col sqrArrow">
-
+            <div class="col sqrArrowLeft">
+                &#8624;
             </div>
         </div>
         <div class="row"> <!-- Bottom Row -->
-            <div class="col fCol sqrStart">
+            <div class="col fCol sqrStart" id="sqr0">
                 <div>
                     <span class="sqrBig">&#9822;</span>
                     <span class="sqrBig">&#9820;</span>
@@ -228,14 +228,14 @@
     </div>
     <div class="column sideColumn" id="sideColumn">
         <div id="catWord">
-            <h2>Express this Word!</h2>
+            <h2><span id="gamePlay"></span>to Play</h2>
             <div>
                 <span class="title">Category</span>
                 <input type="text" id="frm_Category" readonly>
             </div>
             <div>
                 <span class="title">Your Word</span>
-                <input type="text" id="wordValue" placeholder=" Enter word...">
+                <input readonly type="text" id="wordValue" placeholder="Hit Play on Timer">
                 <button id="nextWord" onclick="getWordWrapper()">Next Word</button>
             </div>
             <div>
@@ -251,6 +251,9 @@
                 <span id="t1Score">0</span>
                 <span class="title">Team 2 Score</span>
                 <span id="t2Score">0</span>
+            </div>
+            <div>
+                <button id="playerTurn" class="btnLarge" onClick="startPlayerTurn();">Start</button>
             </div>
         </div>
     </div>

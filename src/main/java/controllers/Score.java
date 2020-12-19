@@ -2,6 +2,8 @@ package controllers;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
+
 import server.Main;
 
 import javax.ws.rs.*;
@@ -17,7 +19,6 @@ import java.sql.Statement;
 @Produces(MediaType.APPLICATION_JSON)
 
 public class Score {
-
     private int getMaxId(){
         int max = 1;
         String query = "SELECT gameID FROM gameScores ORDER BY gameID DESC LIMIT 1";  //means order the records in descending order of WordID and take only the first which will have the highest ID value
@@ -32,25 +33,46 @@ public class Score {
         return max;
     }
 
-    public int getScore(String strTeam, int gameID){
-        PreparedStatement ps;
+    @POST
+    @Path("update")
+
+    public String updateScore(@FormDataParam("gameID") int gameID, @FormDataParam("teamName") String strTeam,
+                              @FormDataParam("turnScore") int turnScore){
+        String strData;
+        strData = getGameStats(gameID);
+        JSONObject data = new JSONObject();
+        JSONObject response = new JSONObject();
+        JSONParser parser = new JSONParser();
         try {
-            ps = Main.db.prepareStatement("Select * from gameScores where gameID = ?");
-            ps.setInt(1, gameID);
-            ResultSet results = ps.executeQuery();
-            if (results.next()) {
-                if (strTeam.equals("Team1")) {
-                    return results.getInt("team1Score");
-                } else if ( strTeam.equals("Team2")) {
-                    return results.getInt("team2Score");
-                } else {
-                    return 0;
-                }
-            }
+            data = (JSONObject) parser.parse(strData);
         } catch (Exception e) {
-            return 0;
+            response.put("Error", "Failure");
+            return response.toString();
         }
-        return 0;
+        PreparedStatement ps;
+        Long t1Score = (Long) data.get("team1Score");
+        Long t2Score = (Long) data.get("team2Score");
+        String nextPlay = "";
+        if ( strTeam.equals("Team1")) {
+            t1Score = t1Score + turnScore;
+            nextPlay = "Team2";
+        }
+        if ( strTeam.equals("Team2")) {
+            t2Score = t2Score + turnScore;
+            nextPlay = "Team1";
+        }
+        try {
+            ps = Main.db.prepareStatement("update gameScores set team1Score=?, team2Score=?, gamePlay=? where gameID=?");
+            ps.setLong(1, t1Score);
+            ps.setLong(2, t2Score);
+            ps.setString(3, nextPlay);
+            ps.setInt(4, gameID);
+            ps.execute();
+            response.put("Status", "Success");
+        } catch (Exception e){
+            response.put("Error", "Failure");
+        }
+        return response.toString();
     }
 
     @POST
@@ -60,57 +82,41 @@ public class Score {
         PreparedStatement ps;
         JSONObject response = new JSONObject();
         try {
-            ps = Main.db.prepareStatement("insert into gameScores (gameID, team1Score, team2Score) Values(?, ?, ?)");
+            ps = Main.db.prepareStatement("insert into gameScores (gameID, team1Score, team2Score, gamePlay) Values(?, ?, ?, ?)");
             ps.setInt(1, nextID);
             ps.setInt(2, 0);
             ps.setInt(3, 0);
+            ps.setString(4, "Team1");
+            ps.execute();
             response.put("Status", "Success");
             response.put("gameID", nextID);
         }catch (Exception e){
-            response.put("Status", "Failure");
+            System.out.println(e.toString());
+            response.put("Error", "Failure");
         }
         return response.toString();
     }
 
-    @POST
-    @Path("update/{gameID}/{team}/{increment}")
-    public String updateScore(@FormDataParam("team") String strTeam, @FormDataParam("gameID") int gameID, @FormDataParam("increment") int increment){
-        PreparedStatement ps;
-        JSONObject response = new JSONObject();
-        try {
-            if (strTeam.equals("Team1") || strTeam.equals("Team2")){
-                if (strTeam.equals("Team1")) {
-                    ps = Main.db.prepareStatement("Update gameScores set team1Score = ? where gameID = ?");
-                } else {
-                    ps = Main.db.prepareStatement("Update gameScores set team2Score = ? where gameID = ?");
-                }
-                ps.setInt(1, getScore(strTeam, gameID) + increment);
-                ps.setInt(2, gameID);
-                ps.execute();
-            }
-         } catch (Exception e) {
-            response.put("Status", "Failure");
-            return response.toString();
-        }
-
-        response.put("Status", "Success");
-        return response.toString();
-    }
-
     @GET
-    @Path("get")
-    public String xx(){
-        System.out.println("Reaching here");
-        return ("<html></html>");
-    }
-
-    @GET
-    @Path("get/{gameID}/{team}")
-    public String getTeamScore(@FormDataParam("gameID") int gameID, @FormDataParam("team") String teamID) {
+    @Path("get/{gameID}")
+    public String getGameStats(@PathParam("gameID") int gameID) {
         System.out.println("Invoked getTeamScore");
-        JSONObject response = new JSONObject();
         int score = 0;
-        response.put("Score", score);
+        JSONObject response = new JSONObject();
+        PreparedStatement ps;
+        try {
+            ps = Main.db.prepareStatement("Select * from gameScores where gameID = ?");
+            ps.setInt(1, gameID);
+            ResultSet results = ps.executeQuery();
+            if (results.next()) {
+                response.put("team1Score", results.getInt("team1Score"));
+                response.put("team2Score", results.getInt("team2Score"));
+                response.put("gamePlay", results.getString("gamePlay"));
+                response.put("Status", "Success");
+            }
+        } catch (Exception e) {
+            response.put("Error", "Failure");
+        }
         return response.toString();
     }
 

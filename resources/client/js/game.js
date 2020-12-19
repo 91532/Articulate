@@ -1,31 +1,98 @@
 "use strict";
-let team1Marker="<span>&#9822</span>";
-let team2Marker="<span>&#9820</span>";
-let team1Score=0;
-let team2Score=0;
-let teamplaying=1;
+let team1Marker='<span class="sqrBig">&#9822</span>';
+let team2Marker='<span class="sqrBig">&#9820</span>';
+let categories = ["Object", "Nature", "Person", "Action", "Spade", "Random", "World"];
+let gameVersion="";
+let turnScore = -1;
+let gamePlay = "";
+let gameID = "";
 
 function pageLoad() {
     console.log("Page is loading...");
-    let wrdSection = 'catWord';
-    let optSection = 'catSelector';
-
-    let strGameVersion = getUrlParameter('gameVersion');
-    let urls = document.getElementsByClassName("sideCat");
-    for (var el of urls){
-        let xAttr = el.getAttribute("aria-details");
-        xAttr = xAttr + "&gameVersion="+ strGameVersion;
-        el.setAttribute("href",xAttr);
+    gameVersion = getUrlParameter("gameVersion");
+    gameID = getUrlParameter("gameID");
+    if (gameID <= 0) {
+        let frmTarget = "/score/put/newGame";
+        const result = fetch(frmTarget, {method: "POST"}).then(response =>{
+            return response.json();
+        }).then( response => {
+            if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                alert("Error Generating Game ID!  Unable to Continue!")    // if it does, convert JSON object to string and alert
+                gameRedirect("/client/home.html");
+            } else {
+                gameID = response.gameID;
+                gameRedirect("/client/game.html?gameVersion="+gameVersion+"&gameID="+gameID);
+            }
+        });
     }
+    if (gameID > 0){
+        const gameStats = fetch("/score/get/" + gameID, {method: "GET"})
+            .then(response => {
+                return response.json();             //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    gamePlay = response.gamePlay;
+                    refreshBoard(response.team1Score, response.team2Score, response.gamePlay);
+                }
+            });
+    }
+}
 
+function refreshBoard(t1Score, t2Score, gPlay){
+    let cnum = 0;
+    updateScores(t1Score, t2Score);
+    updateMarkers(t1Score, t2Score);
+    if ( gPlay == "Team1") {
+        document.getElementById("gamePlay").innerHTML = team1Marker + " " + gPlay + " " + team1Marker + " ";
+        cnum = t1Score % 7;
+    }
+    if ( gPlay == "Team2") {
+        document.getElementById("gamePlay").innerHTML = team2Marker + " " + gPlay + " " + team2Marker + " ";
+        cnum = t2Score % 7;
+    }
+    if (cnum > 0) { cnum--; }
+    document.getElementById("frm_Category").value = categories[cnum];
+}
 
-    hideElement(optSection);
-    showElement(wrdSection);
-    document.getElementById('frm_Category').value = strCategory;
-    countdown();
-    getWordWrapper();
+function updateMarkers(t1Score, t2Score) {
+    clearAllSquares();
+    drawMarkers(t1Score, t2Score);
+}
 
+function clearAllSquares(){
+    for (let id=0; id<=56; id++){
+        let el = "sqr"+id;
+        document.getElementById(el).innerHTML = "";
+    }
+}
 
+function drawMarkers(t1Score, t2Score) {
+    let el= "";
+    let iHTML = "";
+    if (t1Score == t2Score) {
+        el = "sqr" + t2Score;
+        iHTML = "<div>" + team1Marker + team2Marker + "</div>";
+        document.getElementById(el).innerHTML = iHTML;
+    } else {
+        el = "sqr" + t1Score;
+        iHTML = "<div>" + team1Marker + "</div>";
+        document.getElementById(el).innerHTML = iHTML;
+        el = "sqr" + t2Score;
+        iHTML = "<div>" + team2Marker + "</div>";
+        document.getElementById(el).innerHTML = iHTML;
+
+    }
+}
+
+function updateScores(t1Score, t2Score) {
+    document.getElementById("t1Score").innerHTML = team1Marker + " " + t1Score;
+    document.getElementById("t2Score").innerHTML = team2Marker + " " + t2Score;
+}
+
+function gameRedirect(newURL){
+    window.location.replace(newURL);
 }
 
 function showElement(name) {
@@ -54,15 +121,6 @@ function getContent(url, dstElement, active="Home") {
     }).then (response => {
         document.getElementById(dstElement).innerHTML = response;
         document.getElementById("topnav" + active).classList.add("active");
-    });
-}
-
-function getXContent(url, dstElement) {
-    console.log("Getting file: " + url);
-    fetch(url, {method: "GET"}).then( response => {
-        return response.text();
-    }).then (response => {
-        document.getElementById(dstElement).innerHTML = response;
     });
 }
 
@@ -106,10 +164,17 @@ function getWordWrapper(){
     }else{
         getWord();
     }
+    turnScore = turnScore + 1;
+}
+
+function startPlayerTurn(){
+    countdown();
+    getWordWrapper();
+    document.getElementById("playerTurn").disabled = true;
 }
 
 //set seconds
-let timeLeft = 60;
+let timeLeft = 10;
 let theTimer = null;
 
 function refreshTimer(){
@@ -121,9 +186,24 @@ function refreshTimer(){
         clearInterval(theTimer);// makes sure the timer doesn't go negative
         //alert("Whooops time up!");
         document.getElementById("seconds").innerHTML = "00";
-        hideElement("nextWord");
+        document.getElementById("nextWord").disabled = true;
         document.getElementById("timePlay").disabled = true;
         document.getElementById("timePause").disabled = true;
+        let url = "/score/update";
+        let frmData = new FormData();
+        frmData.append("gameID", gameID);
+        frmData.append("teamName", gamePlay);
+        frmData.append("turnScore", turnScore);
+        fetch(url, {method: "POST", body: frmData}).then( response => {
+            return response.json();
+        }).then (response => {
+            if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+            } else {
+                gameRedirect("/client/game.html?gameVersion="+gameVersion+"&gameID="+gameID);
+            };
+        });
+
     }
 }
 
@@ -133,6 +213,7 @@ function countdown() {
     document.getElementById("timePlay").disabled = true;
     document.getElementById("timePause").disabled = false;
 }
+
 function stopcountdown() {
     clearInterval(theTimer);
     document.getElementById("timePlay").disabled = false;
