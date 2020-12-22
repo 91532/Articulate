@@ -20,6 +20,10 @@ import java.sql.Statement;
 
 public class Score {
     private int getMaxId(){
+        /*
+        This method identifies the max value of cardID in the database
+        It is used to set the upper limit for the random function
+        */
         int max = 1;
         String query = "SELECT gameID FROM gameScores ORDER BY gameID DESC LIMIT 1";  //means order the records in descending order of WordID and take only the first which will have the highest ID value
         try (Statement stmt = Main.db.createStatement()) {
@@ -35,7 +39,10 @@ public class Score {
 
     @POST
     @Path("update")
-
+        /*
+        This method is used in game.html.
+        It is used to update the scores in the database at the end of each round.
+        */
     public String updateScore(@FormDataParam("gameID") int gameID, @FormDataParam("teamName") String strTeam,
                               @FormDataParam("turnScore") int turnScore){
         String strData;
@@ -78,6 +85,10 @@ public class Score {
     @POST
     @Path("put/newGame")
     public String putGame(){
+        /*
+        This method is used in game.html.
+        It is used to add a new game as a record in the database.
+        */
         int nextID = getMaxId() + 1;
         PreparedStatement ps;
         JSONObject response = new JSONObject();
@@ -99,6 +110,11 @@ public class Score {
 
     @GET
     @Path("get/{gameID}")
+        /*
+        This method is used in game.html.
+        It is used to select an existing game from the database depending on the gameID.
+        Once this is selected the user will be able to play from where they left off.
+        */
     public String getGameStats(@PathParam("gameID") int gameID) {
         System.out.println("Invoked getTeamScore");
         int score = 0;

@@ -20,8 +20,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Card {
 
     private int getMaxId(){
+        /*
+        This method identifies the max value of cardID in the database
+        It is used to set the upper limit for the random function
+        */
         int max = 1;
-        String query = "SELECT CardID FROM Cards ORDER BY CardID DESC LIMIT 1";  //means order the records in descending order of WordID and take only the first which will have the highest ID value
+        String query = "SELECT CardID FROM Cards ORDER BY CardID DESC LIMIT 1";
+        //means order the records in descending order of WordID and take
+        // only the first which will have the highest ID value
         try (Statement stmt = Main.db.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next() == true) {
@@ -33,8 +39,16 @@ public class Card {
         return max;
     }
     private int getMaxIdKids(){
+        /*
+        This is the same as the previous method but for the kids version
+        This method identifies the max value of cardID in the database
+        It is used to set the upper limit for the random function
+        */
+
         int max = 1;
-        String query = "SELECT CardID FROM KidsCards ORDER BY CardID DESC LIMIT 1";  //means order the records in descending order of WordID and take only the first which will have the highest ID value
+        String query = "SELECT CardID FROM KidsCards ORDER BY CardID DESC LIMIT 1";
+        //means order the records in descending order of WordID and take
+        // only the first which will have the highest ID value
         try (Statement stmt = Main.db.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next() == true) {
@@ -48,6 +62,10 @@ public class Card {
 
     @POST
     @Path("put/Card")
+        /*
+        This method is used in admin.html.
+        It is used to add records into the database.
+        */
     public String putCard(@FormDataParam("Person") String strPerson,
                           @FormDataParam("Object") String strObject,
                           @FormDataParam("World") String strWorld,
@@ -89,6 +107,10 @@ public class Card {
     }
     @POST
     @Path("update/Card")
+        /*
+        This method is used in admin.html.
+        It is used to edit existing records in the database.
+        */
     public String updateCard(@FormDataParam("ePerson") String strPerson,
                           @FormDataParam("eObject") String strObject,
                           @FormDataParam("eWorld") String strWorld,
@@ -132,6 +154,10 @@ public class Card {
 
     @GET
     @Path("get/All")
+        /*
+        This method is used in admin.html.
+        It is used to show the whole database on the page
+        */
     public String getCards(){
         PreparedStatement ps = null;
         JSONObject response = new JSONObject();
@@ -158,6 +184,10 @@ public class Card {
 
     @GET
     @Path("get/Card/{CardID}")
+        /*
+        This method is used in game.html.
+        It is used to pull individual records from the database based on the cardID
+        */
     public String getCardById(@PathParam("CardID") int CardID){
         PreparedStatement ps = null;
         JSONObject response = new JSONObject();
@@ -189,12 +219,13 @@ public class Card {
 
     @GET
     @Path("get/Category/{Category}/{gameVersion}")
+        /*
+        This method is used in game.html.
+        It is used to get words from a category based on
+        the version of the game that is being played - Original or Kids
+        */
     public String getCard (@PathParam("Category") String category, @PathParam("gameVersion") String gameVersion) {
         System.out.println("Invoked Card.getCard() with Category " + category);
-
-        // need to work out highest WordID in Words table in database
-        // we'll just run the SQL and not worry about prepared statement as users can't access this code
-        // as it's on the server
         int randomID = 0;
         PreparedStatement ps = null;
         try {

@@ -9,12 +9,15 @@
 
 
 <body>
-<div id="topnav" class="topnav"> <!--This div is consistent throughout all the pages. It used for the nav bar on the page-->
+<div id="topnav" class="topnav">
+    <!--This div is consistent throughout all the pages.
+    It is used for the nav bar on the page-->
     <script>getContent("/client/topnav.html", "topnav", "Admin");</script>
 </div>
 <div class="row">
     <div class="column mainColumn" >
-        <section> <!-- this section is for adding the "cards" (or rows) to the table-->
+        <section>
+            <!-- this section is for adding the "cards" (or rows) to the table-->
             <h3>Add Cards</h3>
             <form id="addForm" action="/card/put/Card" onsubmit="return frmSubmit(event)">
                 <table>
@@ -38,7 +41,9 @@
                 </table>
             </form>
         </section>
-        <section> <!-- this section is for the users to see the "cards" in the table - both the ones they added and the original ones. -->
+        <section>
+            <!-- this section is for the users to see the "cards" in the table
+            - both the ones they added and the original ones. -->
             <h3>See Cards</h3>
             <table id="WordList" class="WordList">
                 <thead>
@@ -60,7 +65,8 @@
             </table>
             <script>populateAdminTable("WordList")</script>
         </section>
-        <section> <!-- this section is for editing the "cards" (or rows) in the table-->
+        <section>
+            <!-- this section is for editing the "cards" (or rows) in the table-->
             <h3>Edit Cards</h3>
             <form id="editForm" action="/card/update/Card" onsubmit="return frmSubmit(event)">
                 <table>
@@ -85,7 +91,8 @@
             </form>
         </section>
     </div>
-    <div class="column sideColumn"> <!-- the sideColumn contains links to the rules for each version of the game-->
+    <div class="column sideColumn">
+        <!-- the sideColumn contains links to the rules for each version of the game-->
         <h1>Help</h1>
         <section class="sideSection">
             <a href="help.html">Rules for Original Version</a>
