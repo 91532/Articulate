@@ -7,11 +7,11 @@ let turnScore = -1;
 let gamePlay = "";
 let gameID = "";
 
-function pageLoad() {
+function pageLoad() { //when the page loads this function will start.
     console.log("Page is loading...");
-    gameVersion = getUrlParameter("gameVersion");
+    gameVersion = getUrlParameter("gameVersion"); // this will make sure that the correct elements load based off of what version of the game the user chooses
     gameID = getUrlParameter("gameID");
-    if (gameID <= 0) {
+    if (gameID <= 0) { //if the game ID is less than or equal to 0 then a new game will start
         let frmTarget = "/score/put/newGame";
         const result = fetch(frmTarget, {method: "POST"}).then(response =>{
             return response.json();
@@ -25,7 +25,7 @@ function pageLoad() {
             }
         });
     }
-    if (gameID > 0){
+    if (gameID > 0){ //if the game ID is greater than 0 then an existing game will be loaded with the scores of each team and which team's turn it is displayed on the screen
         const gameStats = fetch("/score/get/" + gameID, {method: "GET"})
             .then(response => {
                 return response.json();             //return response to JSON
@@ -40,7 +40,7 @@ function pageLoad() {
     }
 }
 
-function refreshBoard(t1Score, t2Score, gPlay){
+function refreshBoard(t1Score, t2Score, gPlay){ //this function updates the score, position of the counters and who's playing at the end of every turn (when the 60 second timer is finished)
     let cnum = 0;
     updateScores(t1Score, t2Score);
     updateMarkers(t1Score, t2Score);
@@ -56,7 +56,7 @@ function refreshBoard(t1Score, t2Score, gPlay){
     document.getElementById("frm_Category").value = categories[cnum];
 }
 
-function updateMarkers(t1Score, t2Score) {
+function updateMarkers(t1Score, t2Score) { // this function is linked to the refreshBoard function. This function makes sure that the markers are in the right place on the board depending on the scores of each team.
     clearAllSquares();
     drawMarkers(t1Score, t2Score);
 }
@@ -68,7 +68,7 @@ function clearAllSquares(){
     }
 }
 
-function drawMarkers(t1Score, t2Score) {
+function drawMarkers(t1Score, t2Score) { //this function is specifically to draw the markers on the board. This is to position them correctly inside the boaxes
     let el= "";
     let iHTML = "";
     if (t1Score == t2Score) {
@@ -86,35 +86,24 @@ function drawMarkers(t1Score, t2Score) {
     }
 }
 
-function updateScores(t1Score, t2Score) {
-    document.getElementById("t1Score").innerHTML = team1Marker + " " + t1Score;
-    document.getElementById("t2Score").innerHTML = team2Marker + " " + t2Score;
+function updateScores(t1Score, t2Score) {// when this function is called when the scores need to be updated.
+    document.getElementById("t1Score").innerHTML = team1Marker + " " + t1Score; // this returns all the elements that have the id "t1Score"
+    document.getElementById("t2Score").innerHTML = team2Marker + " " + t2Score; // this returns all the elements that have the id "t2Score"
 }
 
-function gameRedirect(newURL){
+function gameRedirect(newURL){ // this function is used to either redirect the user back to the home page if there is an error or direct them to the page where they can play the game
     window.location.replace(newURL);
 }
 
-function showElement(name) {
-    let el = document.getElementById(name);
-    el.style.visibility = "visible";
-    el.style.display = "block";
-}
 
-function hideElement(name) {
-    let el = document.getElementById(name);
-    el.style.visibility = "hidden";
-    el.style.display = "none";
-}
-
-function getUrlParameter(name) {
+function getUrlParameter(name) { // this function is for the javascript to be able to the paramaters in the URL.
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     let results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
+}
 
-function getContent(url, dstElement, active="Home") {
+function getContent(url, dstElement, active="Home") { //This function is used to include the contents of the topnav.html file in all of the other pages.
     console.log("Getting file: " + url);
     fetch(url, {method: "GET"}).then( response => {
         return response.text();
@@ -124,10 +113,10 @@ function getContent(url, dstElement, active="Home") {
     });
 }
 
-function getWord() {
+function getWord() { // when the original version of the game is chosen this function is called to get the words from the database
     console.log("Invoked getWord()");
-    const category = document.getElementById("frm_Category").value;   //get value from date picker
-    const url = "/card/get/Category/";		        // API method on webserver will be in Eaten class with @Path of list
+    const category = document.getElementById("frm_Category").value;   //get value from Category
+    const url = "/card/get/Category/";		        // API method on webserver will be in card class with @Path of category
     fetch(url + category + "/original", {        			// Category as path param
         method: "GET",
     }).then(response => {
@@ -140,10 +129,10 @@ function getWord() {
         }
     });
 }
-function getWordKids() {
+function getWordKids() { // when the kids version of the game is chosen this function is called to get the words from the database
     console.log("Invoked getWordKids()");
-    const category = document.getElementById("frm_Category").value;   //get value from date picker
-    const url = "/card/get/Category/";		        // API method on webserver will be in Eaten class with @Path of list
+    const category = document.getElementById("frm_Category").value;   //get value from Category
+    const url = "/card/get/Category/";		        // API method on webserver will be in card class with @Path of category
     fetch(url + category + "/kids", {        			// Category as path param
         method: "GET",
     }).then(response => {
@@ -156,7 +145,7 @@ function getWordKids() {
         }
     });
 }
-function getWordWrapper(){
+function getWordWrapper(){ // this function is used to make sure that the correct table of words is used depending on the gameVersion.
     console.log("Invoked Wrapper");
     let strGameVersion = getUrlParameter('gameVersion');
     if(strGameVersion == 'kids'){
@@ -167,17 +156,17 @@ function getWordWrapper(){
     turnScore = turnScore + 1;
 }
 
-function startPlayerTurn(){
+function startPlayerTurn(){ // this function is used at the start of each team's turn. In this function the countdown and getWordWrapper functions are called.
     countdown();
     getWordWrapper();
     document.getElementById("playerTurn").disabled = true;
 }
 
 //set seconds
-let timeLeft = 10;
+let timeLeft = 60;
 let theTimer = null;
 
-function refreshTimer(){
+function refreshTimer(){// this function is for the refreshing the timer after each round.
     timeLeft--;
     let secondsString = String(timeLeft % 60);
     document.getElementById("seconds").innerHTML = (secondsString.length == 1 ? "0" : "") + secondsString;
@@ -185,11 +174,12 @@ function refreshTimer(){
         console.log("timeLeft Magically reduced");
         clearInterval(theTimer);// makes sure the timer doesn't go negative
         //alert("Whooops time up!");
+        // at the end of each round 00 seconds are displayed on the screen and you can no longer click any of the buttons.
         document.getElementById("seconds").innerHTML = "00";
         document.getElementById("nextWord").disabled = true;
         document.getElementById("timePlay").disabled = true;
         document.getElementById("timePause").disabled = true;
-        let url = "/score/update";
+        let url = "/score/update"; // the score is then updated in the database
         let frmData = new FormData();
         frmData.append("gameID", gameID);
         frmData.append("teamName", gamePlay);
@@ -214,13 +204,13 @@ function countdown() {
     document.getElementById("timePause").disabled = false;
 }
 
-function stopcountdown() {
+function stopcountdown() { //this function is to stop the countdown.
     clearInterval(theTimer);
     document.getElementById("timePlay").disabled = false;
     document.getElementById("timePause").disabled = true;
 }
 
-function populateAdminTable(tableName){
+function populateAdminTable(tableName){//This function is used on the admin page to bring up the table of words in order for the user to add or edit them.
     let url = "/card/get/All";
     console.log("Getting file: " + url);
     fetch(url, {method: "GET"}).then( response => {
@@ -234,20 +224,20 @@ function populateAdminTable(tableName){
     });
 }
 
-function refreshTable(tableName, response){
+function refreshTable(tableName, response){ //once the user has finished making their edits to the table, this function refreshes the tables so they can see their changes
     removeAllRows(tableName);
     for ( let id in response){
         addTableRow(tableName, id, response[id])
     }
 }
-function removeAllRows(tableName) {
+function removeAllRows(tableName) { //this function removes row from the table
     let tblObject = document.getElementById(tableName);
     // Remove any existing rows except for the title row
     tblObject.removeChild(tblObject.getElementsByTagName("tbody")[0]);
     let tblBody = document.createElement("tbody");
     tblObject.appendChild(tblBody);
 }
-function addTableRow(tableName, id, jsonElements){
+function addTableRow(tableName, id, jsonElements){// this function is used to add rows to the table
     let tblObject = document.getElementById(tableName);
     let tblBody = tblObject.getElementsByTagName("tbody")[0];
     let tblRow = tblBody.insertRow();
@@ -262,7 +252,7 @@ function addTableRow(tableName, id, jsonElements){
     tblRow.insertCell(8).innerHTML = '<button onClick="setEdit(event)">Edit</button>';
 }
 
-function setEdit(event){
+function setEdit(event){// this function is used to edit any of the rows in a table.
     let xButton = event.target;
     let xRow = xButton.parentElement.parentElement;
     document.getElementById("ePerson").value = xRow.getElementsByTagName('td')[1].innerHTML;
@@ -275,7 +265,7 @@ function setEdit(event){
     document.getElementById("eCardId").value = xRow.getElementsByTagName('td')[0].innerHTML;
 }
 
-function frmSubmit(event) {
+function frmSubmit(event) { // this function allows the user the submit any changes they make to the table.
     event.preventDefault();
     let frmObject = event.target;
     let frmData = new FormData(frmObject);

@@ -1,4 +1,5 @@
 :root {
+    /*root is where I have set up some variables in order to make sure that certain values are consistent*/
     --sqrWidth: 90px;
     --bigSpace: 10px;
     --smlSpace: calc(var(--bigSpace)/2);

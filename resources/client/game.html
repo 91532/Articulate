@@ -13,7 +13,7 @@
 </div>
 
 <div class="xRow">
-    <div class="column mainColumn">
+    <div class="column mainColumn"> <!-- the mainColumn on this page is used to display the board for the game itself.-->
         <div class="row">
             <div class="col fCol sqrFinish" id="sqr56">
 
@@ -228,17 +228,17 @@
     </div>
     <div class="column sideColumn" id="sideColumn">
         <div id="catWord">
-            <h2><span id="gamePlay"></span>to Play</h2>
-            <div>
+            <h2><span id="gamePlay"></span>to Play</h2> <!-- this span displays which team's turn it is to play-->
+            <div><!-- this <div> shows the user the category that they are currently guessing from -->
                 <span class="title">Category</span>
                 <input type="text" id="frm_Category" readonly>
             </div>
-            <div>
+            <div> <!-- this <div> shows the word that the team i currently supposed to be guessing-->
                 <span class="title">Your Word</span>
-                <input readonly type="text" id="wordValue" placeholder="Hit Play on Timer">
+                <input readonly type="text" id="wordValue" placeholder="This is your word">
                 <button id="nextWord" onclick="getWordWrapper()">Next Word</button>
             </div>
-            <div>
+            <div> <!-- this <div> shows the timer. It also allows the user to pause the timer if necessary-->
                 <span class="title">Time Left:</span>
                 <span id="seconds">60</span>
                 <div class="toolbar">
@@ -246,13 +246,13 @@
                     <button onclick="stopcountdown()" id="timePause"></button>
                 </div>
             </div>
-            <div>
+            <div> <!-- this <div> shows the current scores for both teams-->
                 <span class="title">Team 1 Score</span>
                 <span id="t1Score">0</span>
                 <span class="title">Team 2 Score</span>
                 <span id="t2Score">0</span>
             </div>
-            <div>
+            <div> <!-- this <div> allows the team to start their turn by pressing a button when they are ready-->
                 <button id="playerTurn" class="btnLarge" onClick="startPlayerTurn();">Start</button>
             </div>
         </div>
