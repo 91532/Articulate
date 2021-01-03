@@ -3,7 +3,7 @@
 <head>
     <script src="/client/js/screen.js"></script>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>Login</title>
     <link rel = "stylesheet" href="/client/css/screen.css">
 </head>
 
@@ -21,20 +21,18 @@
 
 <div class="xRow">
     <div class="column mainColumn" >
-        <h1>Game Options</h1>
-        <!--These sections below allow us to select between the two version of the game -->
+        <h1>Login</h1>
         <section>
-            <a class="primaryOption" href="/client/Screen/board.html?gameLevel=original">
-                <h2>Original</h2>
-                <p>Clicking on the link above will allow you to play the original version of the game</p>
-            </a>
+            <h3>Login is only required for admin functions.  Game can be played without logging in</h3>
+            <form action="/admin/login" method="POST" enctype="multipart/form-data" onsubmit="return frmSubmit(event, loginSuccessWrapper)">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="username">
+                <label for="curPass">Password</label>
+                <input id="curPass" name="curPass" type="password">
+                <input type="submit">
+            </form>
         </section>
-        <section>
-            <a class="primaryOption" href="/client/Screen/board.html?gameLevel=kids">
-                <h2>Kids</h2>
-                <p>Clicking on the link above will allow you to play the Childrens version of the game</p>
-            </a>
-        </section>
+
     </div>
     <div class="column sideColumn">
         <h1>Help</h1>

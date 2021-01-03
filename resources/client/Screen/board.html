@@ -3,17 +3,24 @@
 <head>
     <script src="/client/js/screen.js"></script>
     <meta charset="UTF-8">
-    <title>Game Board - Original</title>
+    <title>Game Board</title>
     <link rel = "stylesheet" href="/client/css/screen.css">
 </head>
 
-<body onload="pageLoad();">
+
+<body onpageshow="pageLoad()">
 <div id="topnav" class="topnav">
-    <script>getContent("/client/topnav.html", "topnav", "Game");</script>
+    <div class="logo">
+        <img src="/client/img/expressLogo.jpg" alt="Express Logo">
+    </div>
+    <a id="topnavHome" href="/client/Screen/home.html">Home</a>
+    <a class="active" id="topnavGame" href="/client/Screen/board.html?gameLevel=original">Game</a>
+    <a id="topnavAdmin"  href="/client/Admin/admin.html">Admin</a>
+    <a id="topnavHelp"  href="/client/Screen/help.html">Help</a>
 </div>
 
 <div class="xRow">
-    <div class="column mainColumn"> <!-- the mainColumn on this page is used to display the board for the game itself.-->
+    <div class="column mainColumn" >
         <div class="row">
             <div class="col fCol sqrFinish" id="sqr56">
 
@@ -37,12 +44,12 @@
 
             </div>
             <div class="col sqrArrowLeft" >
-                &#8624;
+                <br>&#8624;
             </div>
         </div>
         <div class="row">
             <div class="col fCol sqrArrowRight" >
-                &#8625;
+                <br>&#8625;
             </div>
             <div class="col colObject" id="sqr43">
 
@@ -89,12 +96,12 @@
 
             </div>
             <div class="col sqrArrowLeft">
-                &#8624;
+                <br>&#8624;
             </div>
         </div>
         <div class="row">
             <div class="col fCol sqrArrowRight">
-                &#8625;
+                <br>&#8625;
             </div>
             <div class="col colObject" id="sqr29">
 
@@ -141,12 +148,12 @@
 
             </div>
             <div class="col sqrArrowLeft">
-                &#8624;
+                <br>&#8624;
             </div>
         </div>
         <div class="row">
             <div class="col fCol sqrArrowRight">
-                &#8625;
+                <br>&#8625;
             </div>
             <div class="col colObject" id="sqr15">
 
@@ -193,15 +200,12 @@
 
             </div>
             <div class="col sqrArrowLeft">
-                &#8624;
+                <br>&#8624;
             </div>
         </div>
         <div class="row"> <!-- Bottom Row -->
             <div class="col fCol sqrStart" id="sqr0">
-                <div>
-                    <span class="sqrBig">&#9822;</span>
-                    <span class="sqrBig">&#9820;</span>
-                </div>
+
             </div>
             <div class="col colObject" id="sqr1">
 
@@ -226,38 +230,36 @@
             </div>
         </div>
     </div>
-    <div class="column sideColumn" id="sideColumn">
-        <div id="catWord">
-            <h2><span id="gamePlay"></span>to Play</h2> <!-- this span displays which team's turn it is to play-->
-            <div><!-- this <div> shows the user the category that they are currently guessing from -->
-                <span class="title">Category</span>
-                <input type="text" id="frm_Category" readonly>
-            </div>
-            <div> <!-- this <div> shows the word that the team i currently supposed to be guessing-->
-                <span class="title">Your Word</span>
-                <input readonly type="text" id="wordValue" placeholder="This is your word">
-                <button id="nextWord" onclick="getWordWrapper()">Next Word</button>
-            </div>
-            <div> <!-- this <div> shows the timer. It also allows the user to pause the timer if necessary-->
-                <span class="title">Time Left:</span>
-                <span id="seconds">60</span>
-                <div class="toolbar">
-                    <button onclick="countdown()" id="timePlay" disabled></button>
-                    <button onclick="stopcountdown()" id="timePause"></button>
-                </div>
-            </div>
-            <div> <!-- this <div> shows the current scores for both teams-->
-                <span class="title">Team 1 Score</span>
-                <span id="t1Score">0</span>
-                <span class="title">Team 2 Score</span>
-                <span id="t2Score">0</span>
-            </div>
-            <div> <!-- this <div> allows the team to start their turn by pressing a button when they are ready-->
-                <button id="playerTurn" class="btnLarge" onClick="startPlayerTurn();">Start</button>
+    <div class="column sideColumn">
+        <div class="sideBox lBox">
+            <div class="spnTeamMarker">&#9822</div>
+            <div class="spnTeamName">Team 1:&nbsp;&nbsp;</div>
+            <div class="spnTeamScore" id="t1Score">0</div>
+        </div>
+        <div class="sideBox lBox">
+            <div class="spnTeamMarker">&#9820</div>
+            <div class="spnTeamName">Team 2:&nbsp;&nbsp;</div>
+            <div class="spnTeamScore" id="t2Score">0</div>
+        </div>
+        <div class="sideBox">
+            <div class="sideBoxLabel">Playing Now</div>
+            <div class="spnGameID" id="nextPlay">TEAM</div>
+        </div>
+        <div class="sideBox">
+            <div class="sideBoxLabel">Use the QR Code below to connect the Mobile Phone to this game</div>
+            <hr>
+            <div class="sideBoxLabel">Game ID</div>
+            <div class="spnGameID" id="gameID">ABCD-EFGH</div>
+            <hr>
+            <div class="spnGameID">
+                <img id="qrcode" style="margin-left:18%">
             </div>
         </div>
     </div>
 </div>
-</body>
+<div id="msgBox" class="messageBox">
+    Game has Completed!
+</div>
 
+</body>
 </html>
