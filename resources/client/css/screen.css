@@ -1,11 +1,10 @@
 :root {
-    /*root is where I have set up some variables in order to make sure that certain values are consistent*/
     --sqrWidth: 90px;
     --bigSpace: 10px;
     --smlSpace: calc(var(--bigSpace)/2);
-    --mainColWidth: calc(var(--sqrWidth)*8 + var(--bigSpace)*4);
-    --sideColWidth: calc(var(--sqrWidth)*3 + var(--bigSpace));
-    --bodyHeight: calc(var(--sqrWidth)*8 + var(--bigSpace)*4);
+    --mainColWidth: calc(var(--sqrWidth)*8 + var(--smlSpace));
+    --sideColWidth: calc(var(--sqrWidth)*3 + var(--bigSpace)*4);
+    --bodyHeight: calc(var(--sqrWidth)*8 - var(--smlSpace));
     --bodyWidth: calc(var(--mainColWidth) + var(--sideColWidth));
     --fntSml: 0.7em;
     --fntReg: calc(var(--fntSml)*1.5);
@@ -99,6 +98,21 @@ body {
     padding: var(--bigSpace);
 }
 
+.messageBox {
+    width: var(--mainColWidth);
+    display: none;
+    height: 100px;
+    float:left;
+    border: var(--bigSpace) solid;
+    border-image-source: linear-gradient(45deg, rgb(0,143,104), rgb(250,224,66));
+    border-image-slice: 1;
+    margin: 0;
+    margin-top: -428px;
+    margin-left: 150px;
+    background: white;
+    padding: 30px;
+    text-align: center;
+}
 
 .logo{
     display: block;
@@ -122,183 +136,17 @@ a.primaryOption {
     background: linear-gradient(180deg, rgb(250,224,66), rgb(0,143,104));
 }
 
-.sideSection {
-    margin-bottom: var(--bigSpace);
+a.primaryOption:hover {
+    color: black;
 }
 
-.sideSection > a {
-    display: block;
-    background: rgb(250,224,66);
-    padding: var(--smlSpace);
-    border-radius: var(--smlSpace);
-    color: #2f2f2f;
-    text-decoration: none;
-}
-
-a.sideCat {
-    display: block;
-    text-decoration: none;
-    color: #f2f2f2;
-    background: rgb(0,143,104);
-    padding: 4px;
-    margin-bottom: 4px;
-    border-radius: 2px;
-    padding-left: var(--bigSpace);
-}
-
-a:hover.sideCat {
-    color: #2f2f2f;
-    background: rgb(250,224,66);
-}
-
-#catWord > div > span.title {
-    font-size: var(--fntSml);
-    display: block;
-}
-
-#catWord > div {
-    margin-bottom: var(--bigSpace);
-    background: green;
-    color: white;
-    padding: var(--bigSpace);
-}
-
-#catWord > div > input {
-    font-size: var(--fntBig);
-    border: 0;
-    color: white;
-    margin: var(--smlSpace);
-    padding: var(--smlSpace);
-    background: transparent;
-}
-
-.toolbar {
-    margin:auto;
-    text-align: center;
-}
-
-.toolbar > button {
-    background: white;
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-top: var(--bigSpace);
-    height: 30px;
-    width: 30px;
-}
-.toolbar > button:active {
-    transform: translateY(2px);
-}
-#timePlay {
-    background-image: url("/client/img/play.png");
-}
-#timePause {
-    background-image: url("/client/img/pause.png");
-}
-#timePlay:disabled {
-    background-image: url("/client/img/play-disabled.png");
-    transform: none;
-}
-#timePause:disabled {
-    background-image: url("/client/img/pause-disabled.png");
-    transform: none;
-}
-
-#seconds {
-    font-size: 90px;
-    padding: 15px;
-    padding-top:20px;
-    padding-left:20px;
-    background: linear-gradient(180deg, rgb(250,224,66), rgb(0,143,104));
-    color: Yellow;
-    width: 140px;
-    height: 140px;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border-bottom-left-radius: 50%;
-    border-bottom-right-radius: 50%;
-    margin:auto;
-    margin-top: 20px;
-    display: block;
-}
-
-form div {
-    margin-top: var(--bigSpace);
-    margin-bottom: var(--bigSpace);
-}
-form > div > label {
-    font-size: var(--bigSpace);
-}
-form > div > input {
-    display: block;
-    font-size: var(--fntReg);
-    width: 200px;
-}
-
-.WordList {
-    width: 100%;
-    border-spacing: 2;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-.WordList tbody, .WordList thead {
-    display: block;
-    width: 100%;
-}
-form > table {
-    width: 70%;
-}
-
-form label {
-    display: block;
-    font-size: var(--bigSpace);
-}
-
-button {
-    font-size: var(--fntReg);
-    border: 2px solid aqua;
-}
-
-.WordList tbody td, .WordList thead th {
-    width: 6%;
-    border: 1px solid orange;
-    padding-left: var(--smlSpace);
-    padding-right: var(--smlSpace);
-    padding-top: 2px;
-    padding-bottom: 2px;
-    text-align: left;
-    font-size: var(--bigSpace);
-    word-break: break-all;
-}
-.WordList button {
-    font-size: var(--fntReg);
-}
-.WordList tbody {
-    height: 250px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-.WordList thead {
-    overflow-y: scroll;
-}
-
-.UnderConstruction {
-    color: red;
-    font-size: 48px;
-    margin: 20px;
-    margin-top: 200px;
-}
-
-.sideColumn .UnderConstruction {
-    font-size: 24px;
-}
 .row{
-    display: table-row;
+    display: block;
     padding: 0;
 }
+
 .col{
-    display: table-cell;
+    display: inline-table;
     height: var(--sqrWidth);
     min-height: var(--sqrWidth);
     max-height: var(--sqrWidth);
@@ -306,12 +154,14 @@ button {
     min-width: var(--sqrWidth);
     max-width: var(--sqrWidth);
     overflow: none;
-    border: var(--smlSpace) solid green;
+    border: var(--smlSpace) solid;
     border-image: radial-gradient(rgb(0,143,104), rgb(250,224,66)) 1;
     padding: var(--smlSpace);
     font-size: var(--fntReg);
-
     text-align: center;
+    margin-left: calc(-2*var(--smlSpace));
+    margin-top: calc(-1*var(--smlSpace));
+    padding-top: 12px;
 }
 
 .fCol {
@@ -378,24 +228,108 @@ button {
 }
 .sqrArrowLeft, .sqrArrowRight{
     background: white;
+    font-weight: bold;
     color: black;
 }
 .sqrArrowLeft, .sqrArrowRight{
     font-size: var(--fntReg);
 }
 
-
-#t1Score,#t2Score{
-    font-size: var(--fntBgr);
-    margin-top: var(--smlSpace);
-    margin-bottom: var(--smlSpace);
-    margin-left: var(--smlSpace);
-}
-.sqrBig{
-    font-size: 32px;
-    clear: left;
+.spnMarker {
+    display:inline;
+    width:15%;
+    font-size:2.1em;
 }
 
-.btnLarge {
+.sideBox {
+    display: block;
+    margin-left:5%;
+    margin-right:5%;
+    width: 90%;
+    margin-top: 10px;
+    margin-botom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background: linear-gradient(180deg, rgb(250,224,66), rgb(0,143,104));
+}
+
+.lBox, .cBox {
+    display:flex !important;
+}
+
+.spnTeamMarker {
+    display:inline;
+    width:25%;
+    font-size:3.2em;
+}
+
+.spnTeamName {
+    display:flex;
+    width: 55;
+    font-size: 1.6em;
+    padding-top: 22px;
+}
+
+.spnTeamScore {
+    display:flex;
+    width: 20%;
+    font-size: 1.6em;
+    padding-top:22px;
+}
+
+.sideBoxLabel {
+    display: block;
+    font-size: 0.7em;
+}
+
+.spnGameID {
+    display: block;
+    font-size: 2.0em;
+    padding-top: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.6em;
+}
+
+input[type="submit"] {
+    display:block;
+    margin-top: 10px;
+}
+
+.WordList {
     width: 100%;
+    border-spacing: 2;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.WordList tbody, .WordList thead {
+    display: block;
+    width: 100%;
+}
+
+.WordList tbody td, .WordList thead th {
+    width: 6%;
+    border: 1px solid orange;
+    padding-left: var(--smlSpace);
+    padding-right: var(--smlSpace);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: left;
+    font-size: var(--bigSpace);
+    word-break: break-all;
+}
+.WordList button {
+    font-size: var(--fntReg);
+}
+.WordList tbody {
+    height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.WordList thead {
+    overflow-y: scroll;
 }
