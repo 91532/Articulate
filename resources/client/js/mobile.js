@@ -84,7 +84,7 @@ function pageLoad(){
                 mbox.style.display = "block";
                 mbox.innerHTML = msg;
             }
-            if (nextPlay = "Team1") {
+            if (nextPlay == "Team1") {
                 cScore = response.team1Score;
             } else {
                 cScore = response.team2Score;
