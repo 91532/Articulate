@@ -4,10 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>Articulate</groupId>
-    <artifactId>Articulate</artifactId>
+    <groupId>Express</groupId>
+    <artifactId>Express</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>glxn-repo</id>
+            <name>QRCode Repository</name>
+            <url>https://mvnrepository.com/artifact/net.glxn/qrgen</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -104,16 +111,6 @@
             <version>9.4.31.v20200723</version>
         </dependency>
 
-        <!-- Jetty WebSocket library, if required -->
-
-        <!--<dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-server</artifactId>
-            <version>9.4.31.v20200723</version>
-        </dependency>-->
-
-        <!-- Java Architecture for XML Binding (JAXB) -->
-
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -132,10 +129,15 @@
             <version>2.3.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.glxn</groupId>
+            <artifactId>qrgen</artifactId>
+            <version>1.4</version>
+        </dependency>
     </dependencies>
-
-
-
-
-
 </project>

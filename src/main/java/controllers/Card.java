@@ -1,6 +1,5 @@
 package controllers;
 
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONObject;
 import server.Main;
 
@@ -12,43 +11,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 @Path("card/")
 @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.APPLICATION_JSON)
 
 public class Card {
-
-    private int getMaxId(){
-        /*
-        This method identifies the max value of cardID in the database
-        It is used to set the upper limit for the random function
-        */
-        int max = 1;
-        String query = "SELECT CardID FROM Cards ORDER BY CardID DESC LIMIT 1";
-        //means order the records in descending order of WordID and take
-        // only the first which will have the highest ID value
-        try (Statement stmt = Main.db.createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next() == true) {
-                max = rs.getInt("CardID");
-            }
-        } catch (SQLException e) {
-            System.out.println("Database error: " + e.getMessage());
+    private int getMaxId(String gameLevel){
+        int max = 0;
+        //Based on the gameLevel, get the MaxID from the appropriate Table
+        //This adaptation is to re-use the code rather than create another function
+        //for the kids table
+        String tblName="Cards";
+        if (gameLevel.equals("kids")) {
+            tblName="kidsCards";
         }
-        return max;
-    }
-    private int getMaxIdKids(){
-        /*
-        This is the same as the previous method but for the kids version
-        This method identifies the max value of cardID in the database
-        It is used to set the upper limit for the random function
-        */
-
-        int max = 1;
-        String query = "SELECT CardID FROM KidsCards ORDER BY CardID DESC LIMIT 1";
-        //means order the records in descending order of WordID and take
-        // only the first which will have the highest ID value
+        String query = "SELECT CardID FROM " + tblName + " ORDER BY CardID DESC LIMIT 1";  //means order the records in descending order of WordID and take only the first which will have the highest ID value
         try (Statement stmt = Main.db.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next() == true) {
@@ -60,257 +37,64 @@ public class Card {
         return max;
     }
 
-    @POST
-    @Path("put/Card")
-        /*
-        This method is used in admin.html.
-        It is used to add records into the database.
-        */
-    public String putCard(@FormDataParam("Person") String strPerson,
-                          @FormDataParam("Object") String strObject,
-                          @FormDataParam("World") String strWorld,
-                          @FormDataParam("Action") String strAction,
-                          @FormDataParam("Nature") String strNature,
-                          @FormDataParam("Random") String strRandom,
-                          @FormDataParam("Spade") String strSpade
-    ){
-        System.out.println("Invoked Card.putCard()");
-        Boolean isError = false;
-        if ( strPerson == "") {
-            isError = true;
+    @GET
+    @Path("getWord/{gameLevel}/{categoryName}")
+    public String getWord(@PathParam("gameLevel") String gameLevel,
+                          @PathParam("categoryName") String category){
+
+        // Ensure that gameLevel is always one of these two values
+        if ((! gameLevel.equals("kids")) && (! gameLevel.equals("original"))) {
+            gameLevel = "original";
+        }
+        String tblName="Cards";
+        if (gameLevel.equals("kids")) {
+            tblName="kidsCards";
         }
         JSONObject response = new JSONObject();
-        if (isError == false) {
-            int nextCardId = getMaxId() + 1;
-            try {
-                PreparedStatement ps = Main.db.prepareStatement("insert into Cards (CardID, Person, Object, Random, Nature, Spade, Action, World) Values (?, ?, ?, ?, ?, ?, ?, ?)");
-                ps.setInt(1, nextCardId);
-                ps.setString(2, strPerson);
-                ps.setString(3, strObject);
-                ps.setString(4, strRandom);
-                ps.setString(5, strNature);
-                ps.setString(6, strSpade);
-                ps.setString(7, strAction);
-                ps.setString(8, strWorld);
-                ps.execute();
-                response.put("Status", "Success");
-                response.put("Records Updated", ps.getUpdateCount());
-                return response.toString();
-            } catch (Exception e) {
-                response.put("Status", "Failure");
-                return response.toString();
-            }
-        } else {
-            response.put("Status", "Failure");
+        int max = getMaxId(gameLevel);
+        //Added the following to check if number was zero after kids table
+        //was added but did not have data yet
+        if ( max == 0 ){
+            response.put("Error", "Table Not populated");
             return response.toString();
         }
-    }
-    @POST
-    @Path("update/Card")
-        /*
-        This method is used in admin.html.
-        It is used to edit existing records in the database.
-        */
-    public String updateCard(@FormDataParam("ePerson") String strPerson,
-                          @FormDataParam("eObject") String strObject,
-                          @FormDataParam("eWorld") String strWorld,
-                          @FormDataParam("eAction") String strAction,
-                          @FormDataParam("eNature") String strNature,
-                          @FormDataParam("eRandom") String strRandom,
-                          @FormDataParam("eSpade") String strSpade,
-                          @FormDataParam("eCardId") int intCardId
-    ){
-        System.out.println("Invoked Card.updateCard()");
-        Boolean isError = false;
-        if ( strPerson == "") {
-            isError = true;
-        }
-        JSONObject response = new JSONObject();
-        if (isError == false) {
-            int nextCardId = getMaxId() + 1;
-            try {
-                PreparedStatement ps = Main.db.prepareStatement("update Cards set Person = ?, Object = ?, Random = ?, Nature = ?, Spade = ?, Action = ?, World = ? where CardId = ?");
-                ps.setString(1, strPerson);
-                ps.setString(2, strObject);
-                ps.setString(3, strRandom);
-                ps.setString(4, strNature);
-                ps.setString(5, strSpade);
-                ps.setString(6, strAction);
-                ps.setString(7, strWorld);
-                ps.setInt(8, intCardId);
-                ps.execute();
-                response.put("Status", "Success");
-                response.put("Records Updated", ps.getUpdateCount());
-                return response.toString();
-            } catch (Exception e) {
-                response.put("Status", "Failure");
-                return response.toString();
-            }
-        } else {
-            response.put("Status", "Failure");
-            return response.toString();
-        }
-    }
-
-    @GET
-    @Path("get/All")
-        /*
-        This method is used in admin.html.
-        It is used to show the whole database on the page
-        */
-    public String getCards(){
-        PreparedStatement ps = null;
-        JSONObject response = new JSONObject();
+        int randomID = ThreadLocalRandom.current().nextInt(1, getMaxId(gameLevel));
         try {
-            ps = Main.db.prepareStatement("SELECT * FROM Cards");
-            ResultSet results = ps.executeQuery();
-            while (results.next()){
-                int id= results.getInt("CardID");
-                JSONObject rec = new JSONObject();
-                rec.put("Person", results.getString("Person"));
-                rec.put("Object", results.getString("Object"));
-                rec.put("Random", results.getString("Random"));
-                rec.put("Nature", results.getString("Nature"));
-                rec.put("World", results.getString("World"));
-                rec.put("Action", results.getString("Action"));
-                rec.put("Spade", results.getString("Spade"));
-                response.put(id, rec);
-            }
-        }catch (Exception exception) {
-            response.put("Status", "Failure");
-        }
-        return response.toString();
-    }
-
-    @GET
-    @Path("get/Card/{CardID}")
-        /*
-        This method is used in game.html.
-        It is used to pull individual records from the database based on the cardID
-        */
-    public String getCardById(@PathParam("CardID") int CardID){
-        PreparedStatement ps = null;
-        JSONObject response = new JSONObject();
-        try {
-            ps = Main.db.prepareStatement("SELECT * FROM Cards WHERE CardID = ?");
-            ps.setInt(1, CardID);
-            ResultSet results = ps.executeQuery();
-            int count=0;
-
-            while (results.next()){
-                int id= results.getInt("CardID");
-                response.put("Person", results.getString("Person"));
-                response.put("Object", results.getString("Object"));
-                response.put("Random", results.getString("Random"));
-                response.put("Nature", results.getString("Nature"));
-                response.put("World", results.getString("World"));
-                response.put("Action", results.getString("Action"));
-                response.put("Spade", results.getString("Spade"));
-                count++;
-            }
-            if ( count == 0) {
-                response.put("Status", "Failure");
-            }
-        }catch (Exception exception) {
-            response.put("Status", "Failure");
-        }
-        return response.toString();
-    }
-
-    @GET
-    @Path("get/Category/{Category}/{gameVersion}")
-        /*
-        This method is used in game.html.
-        It is used to get words from a category based on
-        the version of the game that is being played - Original or Kids
-        */
-    public String getCard (@PathParam("Category") String category, @PathParam("gameVersion") String gameVersion) {
-        System.out.println("Invoked Card.getCard() with Category " + category);
-        int randomID = 0;
-        PreparedStatement ps = null;
-        try {
-            switch (category){
+            PreparedStatement ps = null;
+            switch (category) {
                 case "Person":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Person From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Person From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT Person FROM " + tblName + " WHERE CardID = ?");
                     break;
                 case "World":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT World From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT World From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT World FROM "+tblName+" WHERE CardID = ?");
                     break;
                 case "Object":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Object From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Object From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT Object FROM "+tblName+" WHERE CardID = ?");
                     break;
                 case "Action":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Action From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Action From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT Action FROM "+tblName+" WHERE CardID = ?");
                     break;
                 case "Nature":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Nature From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Nature From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT Nature FROM "+tblName+" WHERE CardID = ?");
                     break;
                 case "Random":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Random From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Random From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT Random FROM "+tblName+" WHERE CardID = ?");
                     break;
                 case "Spade":
-                    if(gameVersion.equals("kids")){
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxIdKids());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Spade From KidsCards WHERE CardID = ?");
-
-                    }else{
-                        randomID = ThreadLocalRandom.current().nextInt(1, getMaxId());//generating a random ID between one and the maximum ID in the table
-                        ps = Main.db.prepareStatement("SELECT Spade From Cards WHERE CardID = ?");
-                    }
+                    ps = Main.db.prepareStatement("SELECT Spade FROM "+tblName+" WHERE CardID = ?");
                     break;
             }
-            ps.setInt(1, randomID); // fulfill second question mark
+            ps.setInt(1, randomID);
             ResultSet results = ps.executeQuery();
-            JSONObject response = new JSONObject();
-            if (results.next() == true) {
+            if ( results.next() == true) {
                 response.put("Word", results.getString(1));
+                response.put("Status", "Success");
+            } else {
+                response.put("Error", "Failure getting Word");
             }
-            return response.toString();
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-            return "{\"Error\": \"Unable to get item.\"}";
+        } catch(Exception e) {
+            response.put("Error", "Exception getting Word");
         }
+        return response.toString();
     }
 }

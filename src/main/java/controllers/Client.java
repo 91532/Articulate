@@ -46,18 +46,39 @@ public class Client {
     }
 
     @GET
-    @Path("/")
+    @Path("{path}")
     @Produces({"text/html"})
-    public byte[] getIndexPage() {
-        return getFile("client/home.html");
+    public byte[] getHTMLFile(@PathParam("path") String path) {
+        return getFile("client/" + path);
+    }
+
+    /*
+    Introduced the three function below to serve html files from the Screen and Mobile Directories
+     */
+    @GET
+    @Path("Screen/{path}")
+    @Produces({"text/html"})
+    public byte[] getScreenHTMLFile(@PathParam("path") String path) {
+        return getFile("client/Screen/" + path);
     }
 
     @GET
-    @Path("{path}")
+    @Path("Mobile/{path}")
     @Produces({"text/html"})
-    public byte[] getIHTMLFile(@PathParam("path") String path) {
-        return getFile("client/" + path);
+    public byte[] getMobileHTMLFile(@PathParam("path") String path) {
+        return getFile("client/Mobile/" + path);
     }
+
+    @GET
+    @Path("Admin/{path}")
+    @Produces({"text/html"})
+    public byte[] getAdminHTMLFile(@PathParam("path") String path) {
+        return getFile("client/Admin/" + path);
+    }
+
+    /*
+    End of Custom Functions in the Client
+     */
 
     @GET
     @Path("favicon.ico")
