@@ -62,7 +62,7 @@ function pageLoad(){
 function countdown() {
     /*
      */
-    theTimer = setInterval(refreshBoard, 15000);
+    theTimer = setInterval(refreshBoard, 5000);
 }
 
 function refreshBoard(){

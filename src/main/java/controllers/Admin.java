@@ -24,6 +24,10 @@ import java.util.UUID;
 public class Admin {
 
     private String hashPass(String password){
+        /**
+         * hashes a string into MD5-digest
+         * MD5-digest is typically used to store passwords
+         */
         String hash;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -38,6 +42,11 @@ public class Admin {
     }
 
     private Boolean validatePassword(String username, String password){
+        /**
+         * To this function we pass a username and password from the database
+         * it hashes the incoming password, using hashPass function
+         * and compares the result against what is stored in the database
+         */
         PreparedStatement ps;
         try {
             ps = Main.db.prepareStatement("SELECT password FROM users where username = ?");
@@ -57,6 +66,11 @@ public class Admin {
     }
 
     private Boolean validateToken(String username, String token){
+        /**
+         * we read the token from the cookie and use this function to check
+         * in the database if the token has been authenticated previously
+         * this is to prevent asking for password on every page within the session
+         */
         PreparedStatement ps;
         try {
             ps = Main.db.prepareStatement("SELECT tokenID FROM tokens where tokenID = ? and username = ? and Authenticated > 0");
@@ -73,6 +87,11 @@ public class Admin {
     }
 
     private Boolean updateToken(String username, String token, int status){
+        /**
+         * when a user is logging into the admin page for the first time
+         * in a session successfully. This function is called to store the token status
+         * in the database.
+         */
         Boolean response=false;
         try {
             PreparedStatement ps = Main.db.prepareStatement("delete from tokens where username=?");
@@ -97,6 +116,11 @@ public class Admin {
                                    String curPass,
                                    String newPass1,
                                    String newPass2){
+        /**
+         * this function receives the username, current password and the new password.
+         * current password is validated using validatePassword. If it matches, the new
+         * password is first hashed and then stored with the username.
+         */
         JSONObject response = new JSONObject();
         if (! newPass1.equals(newPass2)){
             response.put("Error", "The input passwords do not Match");
@@ -131,6 +155,9 @@ public class Admin {
                                   @FormDataParam("newPass1") String newPass1,
                                   @FormDataParam("newPass2") String newPass2,
                                   @CookieParam("TokenID") String tokenId){
+        /**
+         * This function is currently not used. It exists to support future code and improvements.
+         */
         JSONObject response = new JSONObject();
         if (! validateToken(username, tokenId)) {
             response.put("Error", "Not Authenticated");
@@ -146,6 +173,9 @@ public class Admin {
                                    @FormDataParam("newPass1") String newPass1,
                                    @FormDataParam("newPass2") String newPass2,
                                    @CookieParam("TokenID") String tokenId){
+        /**
+         * This is the function used as a wrapper to call setPassword.
+         */
         JSONObject response = new JSONObject();
         if (! validateToken("admin", tokenId)) {
             response.put("Error", "Not Authenticated");
@@ -158,6 +188,11 @@ public class Admin {
     @GET
     @Path("checkAdminLogin")
     public String checkAdminLogin(@CookieParam("TokenID") String TokenId){
+        /**
+         * it is a wrapper function to validate a token without taking further action
+         * after validation. We call this function on pageLoad() of admin.html to verify
+         * status and redirect to the login page.
+         */
         JSONObject response = new JSONObject();
         if (! validateToken("admin", TokenId)) {
             response.put("Error", "Not Authenticated");
@@ -171,6 +206,12 @@ public class Admin {
     @Path("login")
     public Response performLogin(@FormDataParam("username") String username,
                                  @FormDataParam("curPass") String curPass) {
+        /**
+         * This is called from login.html.
+         * this function generates the cookie and tokenID
+         * Then it stores the username with the tokenID in the database
+         * and validates the entered information against the data in the database.
+         */
         JSONObject jsr = new JSONObject();
         Response response;
         String tokenID = UUID.randomUUID().toString();
