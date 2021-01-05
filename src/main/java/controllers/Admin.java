@@ -154,7 +154,7 @@ public class Admin {
                                   @FormDataParam("curPass") String curPass,
                                   @FormDataParam("newPass1") String newPass1,
                                   @FormDataParam("newPass2") String newPass2,
-                                  @CookieParam("TokenID") String tokenId){
+                                  @CookieParam("tokenID") String tokenId){
         /**
          * This function is currently not used. It exists to support future code and improvements.
          */
@@ -172,7 +172,7 @@ public class Admin {
     public String setAdminPassword(@FormDataParam("curPass") String curPass,
                                    @FormDataParam("newPass1") String newPass1,
                                    @FormDataParam("newPass2") String newPass2,
-                                   @CookieParam("TokenID") String tokenId){
+                                   @CookieParam("tokenID") String tokenId){
         /**
          * This is the function used as a wrapper to call setPassword.
          */
@@ -187,7 +187,7 @@ public class Admin {
 
     @GET
     @Path("checkAdminLogin")
-    public String checkAdminLogin(@CookieParam("TokenID") String TokenId){
+    public String checkAdminLogin(@CookieParam("tokenID") String TokenId){
         /**
          * it is a wrapper function to validate a token without taking further action
          * after validation. We call this function on pageLoad() of admin.html to verify
@@ -215,7 +215,7 @@ public class Admin {
         JSONObject jsr = new JSONObject();
         Response response;
         String tokenID = UUID.randomUUID().toString();
-        NewCookie ck = new NewCookie("TokenID", tokenID);
+        NewCookie ck = new NewCookie("tokenID", tokenID);
         if (validatePassword(username, curPass)) {
             if (updateToken(username, tokenID, 1)) {
                 jsr.put("Status", "Login Success");
@@ -327,16 +327,16 @@ public class Admin {
 
     @POST
     @Path("put/wordRecord")
-    public String splitter(@FormDataParam("ePerson") String strPerson,
-                           @FormDataParam("eObject") String strObject,
-                           @FormDataParam("eRandom") String strRandom,
-                           @FormDataParam("eNature") String strNature,
-                           @FormDataParam("eWorld") String strWorld,
-                           @FormDataParam("eAction") String strAction,
-                           @FormDataParam("eSpade") String strSpade,
-                           @FormDataParam("eCardId") int intCardID,
+    public String splitter(@FormDataParam("Person") String strPerson,
+                           @FormDataParam("Object") String strObject,
+                           @FormDataParam("Random") String strRandom,
+                           @FormDataParam("Nature") String strNature,
+                           @FormDataParam("World") String strWorld,
+                           @FormDataParam("Action") String strAction,
+                           @FormDataParam("Spade") String strSpade,
+                           @FormDataParam("CardId") int intCardID,
                            @FormDataParam("gameLevel") String gameLevel,
-                           @CookieParam("TokenID") String tokenId
+                           @CookieParam("tokenID") String tokenId
     ) {
         /**
          * This function is evoked from the interface, for all four conditions:
@@ -366,7 +366,7 @@ public class Admin {
 
     @GET
     @Path("getAll/{gameLevel}")
-    public String getAllCards(@PathParam("gameLevel") String gameLevel, @CookieParam("TokenID") String tokenId){
+    public String getAllCards(@PathParam("gameLevel") String gameLevel, @CookieParam("tokenID") String tokenId){
         /**
          * This function gets all of the records, based on the game level you are in
          */
