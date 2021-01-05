@@ -231,9 +231,11 @@ public class Admin {
 
     private int getMaxId(String gameLevel){
         int max = 0;
-        //Based on the gameLevel, get the MaxID from the appropriate Table
-        //This adaptation is to re-use the code rather than create another function
-        //for the kids table
+        /**
+         * Based on the gameLevel, get the MaxID from the appropriate Table
+         * This adaptation is to re-use the code rather than create another function
+         * for the kids table
+         */
         String tblName="Cards";
         if (gameLevel.equals("kids")) {
             tblName="kidsCards";
@@ -258,6 +260,10 @@ public class Admin {
                                  String strAction,
                                  String strSpade,
                                  String gameLevel){
+        /**
+         * This function is used to adds new records to the tables of words
+         * This is the private function. It can handle both game levels
+         */
         JSONObject response = new JSONObject();
         String tblName="Cards";
         if (gameLevel.equals("kids")) {
@@ -291,6 +297,10 @@ public class Admin {
                                   String strSpade,
                                   int intCardID,
                                   String gameLevel){
+        /**
+         * This function is used to edit existing records
+         * This is a private function. It can handle both game levels
+         */
         JSONObject response = new JSONObject();
         String tblName="Cards";
         if (gameLevel.equals("kids")) {
@@ -328,6 +338,14 @@ public class Admin {
                            @FormDataParam("gameLevel") String gameLevel,
                            @CookieParam("TokenID") String tokenId
     ) {
+        /**
+         * This function is evoked from the interface, for all four conditions:
+         * 1. new record, original game
+         * 2. new record, kids game
+         * 3. edit record, original game
+         * 4. edit record, kids game
+         * It does initial validation and calls the correct private function for execution
+         */
         JSONObject response = new JSONObject();
         if (! validateToken("admin", tokenId)){
             response.put("Error", "Not Authenticated");
@@ -349,6 +367,9 @@ public class Admin {
     @GET
     @Path("getAll/{gameLevel}")
     public String getAllCards(@PathParam("gameLevel") String gameLevel, @CookieParam("TokenID") String tokenId){
+        /**
+         * This function gets all of the records, based on the game level you are in
+         */
         JSONObject response = new JSONObject();
         if (! validateToken("admin", tokenId)){
             response.put("Error", "Not Authenticated");
