@@ -400,4 +400,24 @@ public class Admin {
         }
         return response.toString();
     }
+
+    @POST
+    @Path("helpForm")
+    public String helpForm(@FormDataParam("pgName") String strPageName,
+                           @FormDataParam("errorType") String strErrorType,
+                           @FormDataParam("gameLevel") String strGameLevel){
+        JSONObject response = new JSONObject();
+        PreparedStatement ps = null;
+        try {
+            ps = Main.db.prepareStatement("insert into feedback (pageReference, gameVersion, feedback) values (?, ?, ?)");
+            ps.setString(1, strPageName);
+            ps.setString(2, strGameLevel);
+            ps.setString(3, strErrorType);
+            ps.execute();
+            response.put("Status", "Success");
+        }catch (Exception exception) {
+            response.put("Error", "Failure");
+        }
+        return response.toString();
+    }
 }

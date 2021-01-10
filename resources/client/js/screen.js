@@ -221,26 +221,26 @@ function setEdit(event){
      */
     let xButton = event.target;
     let xRow = xButton.parentElement.parentElement;
-    document.getElementById("ePerson").value = xRow.getElementsByTagName('td')[1].innerHTML;
-    document.getElementById("eObject").value = xRow.getElementsByTagName('td')[2].innerHTML;
-    document.getElementById("eRandom").value = xRow.getElementsByTagName('td')[3].innerHTML;
-    document.getElementById("eNature").value = xRow.getElementsByTagName('td')[4].innerHTML;
-    document.getElementById("eWorld").value = xRow.getElementsByTagName('td')[5].innerHTML;
-    document.getElementById("eAction").value = xRow.getElementsByTagName('td')[6].innerHTML;
-    document.getElementById("eSpade").value = xRow.getElementsByTagName('td')[7].innerHTML;
-    document.getElementById("eCardId").value = xRow.getElementsByTagName('td')[0].innerHTML;
+    document.getElementById("Person").value = xRow.getElementsByTagName('td')[1].innerHTML;
+    document.getElementById("Object").value = xRow.getElementsByTagName('td')[2].innerHTML;
+    document.getElementById("Random").value = xRow.getElementsByTagName('td')[3].innerHTML;
+    document.getElementById("Nature").value = xRow.getElementsByTagName('td')[4].innerHTML;
+    document.getElementById("World").value = xRow.getElementsByTagName('td')[5].innerHTML;
+    document.getElementById("Action").value = xRow.getElementsByTagName('td')[6].innerHTML;
+    document.getElementById("Spade").value = xRow.getElementsByTagName('td')[7].innerHTML;
+    document.getElementById("CardId").value = xRow.getElementsByTagName('td')[0].innerHTML;
     document.getElementById("gameLevel").value = gameLevel;
 }
 
 function setNew(){
-    document.getElementById("ePerson").value = "";
-    document.getElementById("eObject").value = "";
-    document.getElementById("eRandom").value = "";
-    document.getElementById("eNature").value = "";
-    document.getElementById("eWorld").value = "";
-    document.getElementById("eAction").value = "";
-    document.getElementById("eSpade").value = "";
-    document.getElementById("eCardId").value = 0;
+    document.getElementById("Person").value = "";
+    document.getElementById("Object").value = "";
+    document.getElementById("Random").value = "";
+    document.getElementById("Nature").value = "";
+    document.getElementById("World").value = "";
+    document.getElementById("Action").value = "";
+    document.getElementById("Spade").value = "";
+    document.getElementById("CardId").value = 0;
     document.getElementById("gameLevel").value = gameLevel;
 }
 
@@ -255,6 +255,10 @@ function passwordChangeWrapper(){
 
 function loginSuccessWrapper(){
     gameRedirect("/client/Admin/admin.html");
+}
+
+function helpSuccessWrapper(){
+    alert("Submitted.  Our team will take your feedback and address appropriately");
 }
 
 function frmSubmit(event, callback){
